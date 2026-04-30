@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offshore Wind — Economic Impact Model · Sea Breeze Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg:       #061a2e;
+  --bg2:      #0d2a42;
+  --bg3:      #112f4a;
+  --bg4:      #0a2238;
+  --border:   #1a4a6e;
+  --border2:  #0f3555;
+  --cyan:     #00d4e8;
+  --cyan-dim: rgba(0,212,232,0.10);
+  --cyan-glow:rgba(0,212,232,0.25);
+  --magenta:  #ff2d6e;
+  --mag-dim:  rgba(255,45,110,0.12);
+  --amber:    #ffaa00;
+  --amb-dim:  rgba(255,170,0,0.12);
+  --green:    #00e87a;
+  --grn-dim:  rgba(0,232,122,0.10);
+  --white:    #e8f6ff;
+  --muted:    #7ab3cc;
+  --dimmed:   #3a6a8a;
+  --hdr-blue: #4a9fc8;
+  --font-head:'Barlow Condensed', sans-serif;
+  --font-body:'Barlow', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--white);font-family:var(--font-body);font-size:13px;line-height:1.5;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:1000;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,232,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,232,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1;}
+/* Header */
+.site-header{border-bottom:1px solid var(--border);padding:16px 0 14px;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;}
+.site-header .brand{font-family:var(--font-head);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.site-header .brand span{color:var(--cyan);}
+.site-header .ver{font-family:var(--font-mono);font-size:10px;color:var(--dimmed);letter-spacing:.1em;}
+/* Page title */
+.page-title{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border2);}
+.page-title h1{font-family:var(--font-head);font-size:32px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--white);line-height:1.1;margin-bottom:6px;}
+.page-title h1 span{color:var(--cyan);}
+.page-title .tagline{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em;}
+/* Section labels — green for main sections */
+.sl{font-family:var(--font-mono);font-size:10px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:8px;margin-top:20px;display:flex;align-items:center;gap:8px;}
+.sl::after{content:'';flex:1;height:1px;background:rgba(0,232,122,0.2);}
+.sl:first-child{margin-top:0;}
+/* Country selector */
+.country-bar{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.ctab{flex:1;padding:10px 16px;font-family:var(--font-head);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--dimmed);border:none;border-right:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;}
+.ctab:last-child{border-right:none;}
+.ctab:hover{background:var(--bg3);color:var(--muted);}
+.ctab.on{background:var(--cyan-dim);color:var(--cyan);text-shadow:0 0 12px rgba(0,212,232,0.4);}
+.ctab.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+.ctab .badge{display:inline-block;font-size:9px;font-family:var(--font-mono);padding:1px 5px;border-radius:2px;margin-left:6px;vertical-align:middle;letter-spacing:.05em;}
+.badge-emp{background:var(--grn-dim);color:var(--green);border:1px solid rgba(0,232,122,0.3);}
+.badge-pol{background:var(--amb-dim);color:var(--amber);border:1px solid rgba(255,170,0,0.3);}
+/* Info box */
+.cal-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:4px;padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.cal-box strong{color:var(--white);font-weight:500;}
+.cal-box .src{font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-top:6px;display:block;}
+/* Global mechanism bar */
+.mec-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:20px;}
+.mec-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);}
+.mec-btns{display:flex;gap:5px;}
+.mec-btn{padding:4px 12px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--dimmed);cursor:pointer;transition:all .15s;}
+.mec-btn.on{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+.mec-tag{font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:2px 8px;border-radius:2px;margin-left:auto;}
+/* Panel tabs */
+.ptabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px;overflow-x:auto;}
+.ptab{padding:8px 16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;border:none;background:transparent;color:var(--dimmed);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;}
+.ptab:hover{color:var(--muted);}
+.ptab.on{color:var(--cyan);border-bottom-color:var(--cyan);text-shadow:0 0 8px rgba(0,212,232,0.3);}
+.panel{display:none;}.panel.on{display:block;}
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.wide{grid-column:1/-1;}
+@media(max-width:640px){.g2{grid-template-columns:1fr;}}
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;}
+/* Card title — lighter blue, consistent */
+.card-title{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--hdr-blue);margin-bottom:12px;}
+/* Controls */
+.ctrl{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ctrl:last-child{margin-bottom:0;}
+.ctrl-label{font-size:12px;color:var(--muted);flex:1;}
+.ctrl-val{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--cyan);min-width:64px;text-align:right;}
+input[type=range]{width:100%;-webkit-appearance:none;height:3px;background:var(--border);border-radius:2px;outline:none;cursor:pointer;margin:6px 0 4px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:2px;background:var(--cyan);box-shadow:0 0 6px var(--cyan);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;background:var(--cyan);box-shadow:0 0 6px var(--cyan);border:none;cursor:pointer;}
+.lr{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.lr:last-child{margin-bottom:0;}
+.ll{font-size:12px;color:var(--muted);flex:1.3;}
+.lp{font-family:var(--font-mono);font-size:12px;color:var(--cyan);min-width:32px;text-align:right;}
+/* Scenario buttons */
+.scen-row{display:flex;gap:6px;margin-top:8px;}
+.scen-btn{padding:4px 10px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--dimmed);cursor:pointer;transition:all .15s;}
+.scen-btn.on{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);}
+.scen-desc{font-size:11px;color:var(--dimmed);margin-top:6px;line-height:1.5;font-family:var(--font-mono);}
+/* Fin buttons */
+.fin-row{display:flex;gap:6px;margin-top:6px;}
+.fin-btn{padding:4px 10px;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--dimmed);cursor:pointer;transition:all .15s;}
+.fin-btn.on{background:var(--amb-dim);border-color:var(--amber);color:var(--amber);}
+.fin-desc{font-size:11px;color:var(--dimmed);margin-top:6px;line-height:1.5;}
+/* Metrics */
+.mets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px;}
+@media(max-width:640px){.mets{grid-template-columns:repeat(2,1fr);}}
+.met{background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:12px 14px;position:relative;overflow:hidden;}
+.met::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--border);}
+.met.hi::before{background:var(--cyan);box-shadow:0 0 6px var(--cyan);}
+.met.pos .mv{color:var(--green);}
+.met.neg .mv{color:var(--magenta);}
+.met.inf .mv{color:var(--cyan);}
+.met.amb .mv{color:var(--amber);}
+.ml{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--dimmed);margin-bottom:4px;}
+.mv{font-family:var(--font-mono);font-size:18px;font-weight:500;color:var(--white);}
+.ms{font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-top:2px;}
+/* Chart cards */
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin-bottom:10px;}
+/* Chart title — lighter blue, consistent */
+.ct{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--hdr-blue);margin-bottom:10px;}
+.leg{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;}
+.li{display:flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:10px;color:var(--dimmed);}
+.ld{width:8px;height:8px;border-radius:1px;flex-shrink:0;}
+.nt{font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);line-height:1.6;}
+/* Bar charts */
+.br{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.br:last-child{margin-bottom:0;}
+.bs{font-family:var(--font-mono);font-size:11px;color:var(--muted);width:140px;flex-shrink:0;text-align:right;}
+.bt{flex:1;height:14px;background:var(--bg4);border-radius:2px;overflow:hidden;display:flex;border:1px solid var(--border2);}
+.bd{height:100%;background:var(--cyan);transition:width .35s;}
+.bi{height:100%;background:rgba(0,212,232,0.15);transition:width .35s;}
+.bv{font-family:var(--font-mono);font-size:11px;color:var(--muted);min-width:50px;text-align:right;}
+/* Summary */
+.srows{border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:12px;}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border2);font-size:12px;color:var(--muted);}
+.srow:last-child{border-bottom:none;}
+.srow.tot{background:var(--bg4);font-weight:500;font-size:14px;color:var(--white);font-family:var(--font-head);letter-spacing:.04em;}
+.sv{font-family:var(--font-mono);font-weight:500;}
+/* Info boxes */
+.hb{background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.2);border-radius:4px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--muted);line-height:1.6;}
+.hb strong{color:var(--cyan);}
+.wb{background:var(--amb-dim);border:1px solid rgba(255,170,0,0.25);border-radius:4px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--muted);line-height:1.6;}
+.wb strong{color:var(--amber);}
+.gb{background:var(--grn-dim);border:1px solid rgba(0,232,122,0.2);border-radius:4px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--muted);line-height:1.6;}
+.gb strong{color:var(--green);}
+/* Run button */
+.run-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:var(--cyan-dim);border:1px solid var(--cyan);border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--cyan);cursor:pointer;margin-bottom:16px;transition:all .2s;text-transform:uppercase;}
+.run-btn:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 16px var(--cyan-glow);}
+.run-btn::before{content:'▶';font-size:9px;}
+/* Chile policy */
+.policy-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border2);}
+.policy-item:last-child{border-bottom:none;}
+.policy-date{font-family:var(--font-mono);font-size:10px;color:var(--amber);min-width:72px;padding-top:2px;}
+.policy-text{font-size:12px;color:var(--muted);line-height:1.5;}
+.policy-text strong{color:var(--white);font-weight:500;}
+/* Refs */
+.ref-item{padding:8px 0;border-bottom:1px solid var(--border2);font-size:11px;color:var(--dimmed);line-height:1.6;}
+.ref-item:last-child{border-bottom:none;}
+.ref-tag{font-family:var(--font-mono);font-size:10px;color:var(--cyan);display:block;margin-bottom:2px;}
+/* Sobol */
+.sobol-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sobol-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);width:130px;text-align:right;flex-shrink:0;}
+.sobol-track{flex:1;height:12px;background:var(--bg4);border-radius:2px;overflow:hidden;border:1px solid var(--border2);}
+.sobol-fill{height:100%;background:var(--amber);transition:width .3s;}
+.sobol-pct{font-family:var(--font-mono);font-size:10px;color:var(--amber);min-width:30px;text-align:right;}
+/* Gap */
+.gap-display{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;margin-top:8px;}
+.gap-label{font-family:var(--font-mono);font-size:11px;color:var(--dimmed);flex:1;}
+.gap-value{font-family:var(--font-mono);font-size:16px;font-weight:500;}
+.gap-pos{color:var(--magenta);}
+.gap-neg{color:var(--green);}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--dimmed);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site-header">
+  <div class="brand"><span>Sea Breeze</span> Consulting · Offshore Wind Research</div>
+  <div class="ver">IO-MODEL v2.1 · 2025</div>
+</header>
+
+<div class="page-title">
+  <h1>Offshore Wind<br><span>Economic Impact</span> Model</h1>
+  <div class="tagline">// three-channel input-output analysis · empirical leontief multipliers · monte carlo uncertainty</div>
+</div>
+
+<div class="sl">Country</div>
+<div class="country-bar" id="ctabs">
+  <button class="ctab on" onclick="setC('NO')">Norway<span class="badge badge-emp">SSB Empirical</span></button>
+  <button class="ctab" onclick="setC('UK')">United Kingdom<span class="badge badge-emp">ONS Empirical</span></button>
+  <button class="ctab" onclick="setC('CL')">Chile<span class="badge badge-pol">Policy Development</span></button>
+</div>
+<div class="cal-box" id="cal-box"></div>
+
+<div class="sl">Support mechanism — applies to all channels</div>
+<div class="mec-bar">
+  <span class="mec-label">Mechanism</span>
+  <div class="mec-btns">
+    <button class="mec-btn on" id="mec0" onclick="setMec(0)">CfD</button>
+    <button class="mec-btn" id="mec1" onclick="setMec(1)">CAPEX Grant</button>
+  </div>
+  <span class="mec-tag" id="mec-tag">CfD</span>
+  <span style="font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-left:8px;" id="mec-note"></span>
+</div>
+
+<div class="ptabs" id="ptabs">
+  <button class="ptab on" onclick="setP(0)">① Investment</button>
+  <button class="ptab" onclick="setP(1)">② Power price</button>
+  <button class="ptab" onclick="setP(2)">③ Financing cost</button>
+  <button class="ptab" onclick="setP(3)">④ Summary &amp; MC</button>
+  <button class="ptab" onclick="setP(4)">⑤ Methodology</button>
+</div>
+
+<!-- PANEL 1 -->
+<div class="panel on" id="p0">
+  <div class="sl">Project parameters</div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Capacity &amp; cost</div>
+      <div class="ctrl"><span class="ctrl-label">Installed capacity</span><span class="ctrl-val" id="v-gw">3.0 GW</span></div>
+      <input type="range" min=".5" max="30" step=".5" value="3" oninput="S.gw=+this.value;el('v-gw').textContent=(+this.value).toFixed(1)+' GW';go()">
+      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">CAPEX per MW (M€)</span><span class="ctrl-val" id="v-cp">4.5</span></div>
+      <input type="range" min="2" max="12" step=".5" value="4.5" oninput="S.capex=+this.value;el('v-cp').textContent=(+this.value).toFixed(1);go()">
+      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">OPEX per MW per year (M€)</span><span class="ctrl-val" id="v-op">0.08</span></div>
+      <input type="range" min=".02" max=".25" step=".01" value=".08" oninput="S.opex=+this.value;el('v-op').textContent=(+this.value).toFixed(2);go()">
+    </div>
+    <div class="card">
+      <div class="card-title">Timeline &amp; scenario</div>
+      <div class="ctrl"><span class="ctrl-label">Government support share (%)</span><span class="ctrl-val" id="v-su">35%</span></div>
+      <input type="range" min="0" max="80" step="5" value="35" oninput="S.support=+this.value;el('v-su').textContent=this.value+'%';go()">
+      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Project lifetime (years)</span><span class="ctrl-val" id="v-li">25</span></div>
+      <input type="range" min="15" max="35" step="5" value="25" oninput="S.life=+this.value;el('v-li').textContent=this.value;go()">
+      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Support period (years)</span><span class="ctrl-val" id="v-sp">15</span></div>
+      <input type="range" min="10" max="25" step="1" value="15" oninput="S.speriod=+this.value;el('v-sp').textContent=this.value;go()">
+      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">NVE/IEA price scenario</span></div>
+      <div class="scen-row">
+        <button class="scen-btn" id="sc0" onclick="setSc(0)">Low</button>
+        <button class="scen-btn on" id="sc1" onclick="setSc(1)">Base</button>
+        <button class="scen-btn" id="sc2" onclick="setSc(2)">High</button>
+      </div>
+      <div class="scen-desc" id="sc-d"></div>
+    </div>
+  </div>
+  <div class="sl">Domestic content by component (%)</div>
+  <div class="card wide" style="margin-bottom:12px;">
+    <div class="lr"><span class="ll">Turbines (nacelle, blades, tower)</span><input type="range" min="5" max="90" step="5" id="sl-t" oninput="S.lk.t=+this.value;el('lv-t').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-t">—</span></div>
+    <div class="lr"><span class="ll">Foundations / mooring</span><input type="range" min="5" max="90" step="5" id="sl-f" oninput="S.lk.f=+this.value;el('lv-f').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-f">—</span></div>
+    <div class="lr"><span class="ll">Cables (array + export)</span><input type="range" min="5" max="90" step="5" id="sl-c" oninput="S.lk.c=+this.value;el('lv-c').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-c">—</span></div>
+    <div class="lr"><span class="ll">Installation services</span><input type="range" min="10" max="95" step="5" id="sl-i" oninput="S.lk.i=+this.value;el('lv-i').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-i">—</span></div>
+    <div class="lr"><span class="ll">Engineering &amp; PM</span><input type="range" min="20" max="98" step="2" id="sl-e" oninput="S.lk.e=+this.value;el('lv-e').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-e">—</span></div>
+    <div class="lr"><span class="ll">O&amp;M (operations phase)</span><input type="range" min="30" max="98" step="2" id="sl-o" oninput="S.lk.o=+this.value;el('lv-o').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-o">—</span></div>
+  </div>
+  <div class="sl">Results — Channel 1</div>
+  <div class="mets" id="m1"></div>
+  <div class="cc">
+    <div class="ct">Domestic value added by sector — IO multipliers from national accounts</div>
+    <div class="leg"><span class="li"><span class="ld" style="background:var(--cyan);"></span>Domestic VA</span><span class="li"><span class="ld" style="background:rgba(0,212,232,0.15);border:1px solid var(--border);"></span>Import leakage</span></div>
+    <div id="sbars"></div>
+    <div class="nt" id="nt1"></div>
+  </div>
+  <div class="cc">
+    <div class="ct">Annual domestic activity — construction S-curve + O&amp;M growth over project lifetime</div>
+    <div class="leg">
+      <span class="li"><span class="ld" style="background:var(--cyan);"></span>Construction</span>
+      <span class="li"><span class="ld" style="background:var(--green);"></span>O&amp;M (+2.5%/yr)</span>
+      <span class="li"><span class="ld" style="background:var(--amber);"></span>Decommission</span>
+    </div>
+    <div style="position:relative;height:195px;"><canvas id="ch-tl" role="img" aria-label="Annual domestic activity over project lifetime">Annual domestic activity.</canvas></div>
+  </div>
+</div>
+
+<!-- PANEL 2 -->
+<div class="panel" id="p1">
+  <div class="hb"><strong>Channel 2 — merit-order effect:</strong> New capacity lowers wholesale price → reduced energy input costs → propagated through IO linkages. Bachmann et al. (2022) reversed. CfD note: when market price exceeds strike price, government may recoup the difference — interaction with this channel is a research gap flagged in article 2. <span id="p1-mec-tag" style="display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:1px 6px;border-radius:2px;margin-left:4px;"></span></div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Power market</div>
+      <div class="ctrl"><span class="ctrl-label">Capacity factor (%)</span><span class="ctrl-val" id="v-cf">45%</span></div>
+      <input type="range" min="30" max="60" step="1" value="45" oninput="S.cf=+this.value;el('v-cf').textContent=this.value+'%';go()">
+      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Long-run power price (€/MWh)</span><span class="ctrl-val" id="v-pp">45</span></div>
+      <input type="range" min="20" max="150" step="5" id="sl-pp" value="45" oninput="S.price=+this.value;el('v-pp').textContent=this.value;go()">
+    </div>
+    <div class="card">
+      <div class="card-title">Country parameters</div>
+      <div class="ctrl"><span class="ctrl-label">Merit-order effect (€/MWh per GW)</span><span class="ctrl-val" id="v-pe">—</span></div>
+      <div class="ctrl"><span class="ctrl-label">Economy energy intensity (%)</span><span class="ctrl-val" id="v-ei">—</span></div>
+      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">LCOE (€/MWh)</span><span class="ctrl-val" id="v-lc">130</span></div>
+      <input type="range" min="60" max="250" step="5" id="sl-lc" value="130" oninput="S.lcoe=+this.value;el('v-lc').textContent=this.value;go()">
+    </div>
+    <div class="card wide">
+      <div class="card-title">Viability gap — feedback loop</div>
+      <div style="font-size:11px;color:var(--dimmed);line-height:1.6;margin-bottom:8px;">Price models that assume buildout at market price are self-contradicting: low price → no FID → no buildout → price stays high. NVE (2025): Norwegian offshore wind unlikely profitable without support in most scenarios to 2050.</div>
+      <div class="gap-display"><span class="gap-label">Viability gap (LCOE − market price)</span><span class="gap-value" id="v-ga">—</span></div>
+      <div class="gap-display" style="margin-top:6px;"><span class="gap-label">Capacity viable at market price (no support)</span><span class="gap-value" id="v-bl">—</span></div>
+    </div>
+  </div>
+  <div class="sl">Results — Channel 2</div>
+  <div class="mets" id="m2"></div>
+  <div class="cc">
+    <div class="ct">Annual economy benefit from reduced power prices — by sector energy intensity</div>
+    <div style="position:relative;height:220px;"><canvas id="ch-pw" role="img" aria-label="Sector power price benefit">Sector power price benefit.</canvas></div>
+    <div class="nt">Distribution weighted by sector energy intensity from national accounts. Energy-intensive industries receive largest benefit from lower electricity input costs.</div>
+  </div>
+</div>
+
+<!-- PANEL 3 -->
+<div class="panel" id="p2">
+  <div class="hb"><strong>Channel 3 — financing cost:</strong> Government support must be financed. DWL is the efficiency cost of raising public funds — not the support amount itself. Each krone raised via distortionary taxation loses approximately DWL% in social welfare. <span id="p2-mec-tag" style="display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:1px 6px;border-radius:2px;margin-left:4px;"></span></div>
+  <div class="hb" id="p2-mec-note" style="margin-top:-4px;"></div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Financing source</div>
+      <div class="fin-row" id="fin-btns">
+        <button class="fin-btn on" id="fn0" onclick="setFin(0)">Taxation</button>
+        <button class="fin-btn" id="fn1" onclick="setFin(1)">Oil fund (NO)</button>
+        <button class="fin-btn" id="fn2" onclick="setFin(2)">Debt</button>
+      </div>
+      <div class="fin-desc" id="fin-d" style="margin-top:8px;font-size:11px;color:var(--dimmed);line-height:1.5;"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cost parameters</div>
+      <div class="ctrl"><span class="ctrl-label">Deadweight loss rate (%)</span><span class="ctrl-val" id="v-dw">20%</span></div>
+      <input type="range" min="5" max="40" step="5" value="20" oninput="S.dwl=+this.value;el('v-dw').textContent=this.value+'%';go()">
+      <div style="font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;">Efficiency cost per krone raised via distortionary tax. Not the tax rate. Norwegian estimate ~20 øre/krone (Finansdept., Browning 1976).</div>
+      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">Fiscal multiplier</span><span class="ctrl-val" id="v-fm">0.85</span></div>
+      <input type="range" min=".3" max="1.5" step=".05" value=".85" oninput="S.fmult=+this.value;el('v-fm').textContent=(+this.value).toFixed(2);go()">
+      <div style="font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;">GDP change per krone public spending. &lt;1 = crowding out. Small open economy: 0.6–0.9 (Auerbach &amp; Gorodnichenko 2012).</div>
+    </div>
+  </div>
+  <div class="sl">Results — Channel 3</div>
+  <div class="mets" id="m3"></div>
+  <div class="cc">
+    <div class="ct">Annual financing cost — support period vs post-support free operations</div>
+    <div style="position:relative;height:170px;"><canvas id="ch-fn" role="img" aria-label="Annual financing cost">Annual financing cost.</canvas></div>
+    <div class="nt" id="nt3"></div>
+  </div>
+</div>
+
+<!-- PANEL 4 -->
+<div class="panel" id="p3">
+  <div class="sl">Net societal benefit — all channels</div>
+  <div class="srows">
+    <div class="srow"><span>① Investment (domestic VA, full lifetime)</span><span class="sv" id="s1" style="color:var(--green);">—</span></div>
+    <div class="srow"><span>② Power price (economy benefit, full lifetime)</span><span class="sv" id="s2" style="color:var(--green);">—</span></div>
+    <div class="srow"><span>③ Financing cost (opportunity cost of support)</span><span class="sv" id="s3" style="color:var(--magenta);">—</span></div>
+    <div class="srow tot"><span>Net societal benefit</span><span class="sv" id="snet">—</span></div>
+  </div>
+  <div class="cc">
+    <div class="ct">Year-by-year — all channels stacked · full project lifetime</div>
+    <div class="leg">
+      <span class="li"><span class="ld" style="background:var(--cyan);"></span>Ch1: Investment</span>
+      <span class="li"><span class="ld" style="background:var(--green);"></span>Ch2: Power price</span>
+      <span class="li"><span class="ld" style="background:rgba(255,45,110,0.5);"></span>Ch3: Financing (negative)</span>
+    </div>
+    <div style="position:relative;height:210px;"><canvas id="ch-su" role="img" aria-label="Year by year combined channels">Combined channels.</canvas></div>
+  </div>
+  <div class="sl">Monte Carlo — 10 000 simulations</div>
+  <div class="hb">Stochastic: <strong>CAPEX</strong> triangular (±40%, NVE/IRENA) · <strong>IO multiplier</strong> log-normal (σ=0.15) · <strong>Price elasticity</strong> uniform (±50%, Hirth 2013). All other parameters fixed at user values.</div>
+  <button class="run-btn" onclick="runMC()">Run Monte Carlo (10 000 simulations)</button>
+  <div id="mc-out" style="display:none;">
+    <div class="mets" id="m-mc"></div>
+    <div class="g2">
+      <div class="cc" style="margin-bottom:0;">
+        <div class="ct">Distribution of net societal benefit</div>
+        <div style="position:relative;height:175px;"><canvas id="ch-mc" role="img" aria-label="MC distribution">MC distribution.</canvas></div>
+      </div>
+      <div class="cc" style="margin-bottom:0;">
+        <div class="ct">Variance decomposition (Sobol indices)</div>
+        <div id="sobol" style="padding-top:4px;"></div>
+        <div class="nt">Share of output variance per stochastic parameter.</div>
+      </div>
+    </div>
+    <div class="cc" style="margin-top:10px;">
+      <div class="ct">P10 / P50 / P90 domestic VA by sector — after Monte Carlo</div>
+      <div style="position:relative;height:230px;"><canvas id="ch-sm" role="img" aria-label="Sector MC intervals">Sector MC.</canvas></div>
+      <div class="nt">Sector uncertainty from CAPEX and multiplier distributions propagated through sector allocation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL 5 -->
+<div class="panel" id="p4">
+  <div class="sl">IO multiplier sources</div>
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-title">Norway — SSB national accounts 2023</div>
+    <div class="ref-item"><span class="ref-tag">Method</span>Domestic Leontief (I−A_d)⁻¹. A_d from SSB IOT 1850 (domestic), x from IOT 1750 (total). VA from row 104. 65 sectors, domestic share 74.1%. Mean output mult: 1.55. Mean VA mult: 0.71.</div>
+    <div class="ref-item"><span class="ref-tag">Source</span>SSB IOT 1750/1850 2023. Nasjonalregnskap, kryssløpstabeller.</div>
+  </div>
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-title">United Kingdom — ONS IO Analytical Tables 2023</div>
+    <div class="ref-item"><span class="ref-tag">Method</span>Type I GVA multipliers from ONS Multipliers sheet. 103 SIC industries. Mean GVA mult: 1.91. Construction: 2.29, Manufacturing: 2.17, Maritime: 2.02.</div>
+    <div class="ref-item"><span class="ref-tag">Source</span>ONS Input-Output Analytical Tables 2023 (Blue Book 2025).</div>
+  </div>
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-title">Chile — estimated from OECD ICIO 2025 + Latin America proxies</div>
+    <div class="ref-item"><span class="ref-tag">Status</span>No offshore wind yet. Multipliers estimated from OECD ICIO 2025 (CHL available, empirical extraction pending in Claude Code). Current values derived from Latin American IO literature and OECD TiVA Chile data. Chile has experience with land-based wind and solar under support schemes — domestic supply chain capability exists but is more limited than Europe for offshore-specific components.</div>
+    <div class="ref-item"><span class="ref-tag">Source</span>OECD ICIO 2025 (CHL, 50 industries, 1995–2022). Banco Central de Chile MIP (111 activities, 27-month lag). Empirical extraction queued.</div>
+  </div>
+  <div class="sl">Key references</div>
+  <div class="card">
+    <div class="ref-item"><span class="ref-tag">IO methodology</span>Miller &amp; Blair (2009). Input-Output Analysis. Cambridge. — Leontief (1951).</div>
+    <div class="ref-item"><span class="ref-tag">Power channel</span>Bachmann et al. (2022). NBER WP. — Hirth (2013). Energy Economics 38.</div>
+    <div class="ref-item"><span class="ref-tag">Financing cost</span>Browning (1976). JPE. — Auerbach &amp; Gorodnichenko (2012). AEJ: Economic Policy.</div>
+    <div class="ref-item"><span class="ref-tag">Construction S-curve</span>Ishihara et al. (2023). Applied Energy. Y1:30%, Y2:35%, Y3:25%, Y4:10%.</div>
+    <div class="ref-item"><span class="ref-tag">NVE scenarios</span>NVE (2025). Langsiktig kraftmarkedsanalyse 2025.</div>
+    <div class="ref-item"><span class="ref-tag">Chile roadmap</span>Ministerio de Energía / Net Zero World / World Bank (2024). Hoja de Ruta Energía Eólica Marina. — Chile joined GOWA July 2025.</div>
+    <div class="ref-item"><span class="ref-tag">Supply chain</span>Adelphi (2023). — WindEurope (2023).</div>
+  </div>
+  <div class="wb" style="margin-top:10px;"><strong>⚠ Limitations:</strong> UK multipliers Type I only. Chile multipliers estimated — empirical OECD ICIO extraction pending. Germany excluded pending FIGARO fix. MC covers parametric uncertainty only.</div>
+</div>
+
+</div>
+
+<script>
+const IO = {
+  NO:{cats:{'Manufacturing':{va:.613,out:1.651,sh:.134,ei:2.8},'Maritime & offshore':{va:.619,out:1.402,sh:.205,ei:5.1},'Construction':{va:.720,out:1.923,sh:.011,ei:1.2},'Electrical & electronics':{va:.698,out:1.482,sh:.029,ei:3.2},'Professional services':{va:.790,out:1.536,sh:.045,ei:.8},'Transport & logistics':{va:.631,out:1.589,sh:.064,ei:5.4},'Energy supply':{va:.811,out:1.544,sh:.031,ei:8.9},'Other industries':{va:.822,out:1.575,sh:.224,ei:1.6}},cm:{t:.613,f:.700,c:.672,i:.760,e:.790,o:.705,x:.822},ov:.712,src:'SSB IOT 1750/1850 2023 · Domestic Leontief (I−A_d)⁻¹ · 65 sectors · dom. share 74.1%'},
+  UK:{cats:{'Manufacturing':{va:2.168,out:1.778,sh:.152,ei:3.8},'Maritime & offshore':{va:2.023,out:1.788,sh:.048,ei:5.2},'Construction':{va:2.286,out:2.121,sh:.042,ei:1.4},'Electrical & electronics':{va:2.902,out:2.246,sh:.038,ei:3.5},'Professional services':{va:1.488,out:1.509,sh:.058,ei:.7},'Transport & logistics':{va:2.244,out:1.840,sh:.048,ei:5.4},'Energy supply':{va:1.800,out:1.700,sh:.040,ei:9.1},'Other industries':{va:1.573,out:1.621,sh:.407,ei:1.8}},cm:{t:2.168,f:2.258,c:2.496,i:2.102,e:1.488,o:1.756,x:1.573},ov:1.912,src:'ONS IO Analytical Tables 2023 (Blue Book 2025) · Type I multipliers · 103 SIC industries'},
+  CL:{cats:{'Manufacturing':{va:.72,out:1.82,sh:.16,ei:3.1},'Maritime & offshore':{va:.68,out:1.61,sh:.06,ei:4.5},'Construction':{va:.81,out:1.94,sh:.08,ei:1.3},'Electrical & electronics':{va:.74,out:1.65,sh:.04,ei:2.8},'Professional services':{va:.83,out:1.68,sh:.11,ei:.7},'Transport & logistics':{va:.71,out:1.79,sh:.07,ei:4.9},'Energy supply':{va:.76,out:1.87,sh:.05,ei:8.2},'Other industries':{va:.79,out:1.62,sh:.43,ei:1.4}},cm:{t:.72,f:.76,c:.73,i:.74,e:.83,o:.70,x:.79},ov:.756,src:'Estimated from OECD ICIO 2025 (CHL) proxies · Banco Central de Chile MIP extraction pending · treat as indicative'}
+};
+const CATS = Object.keys(IO.NO.cats);
+const CO = {
+  NO:{name:'Norway',lk:{t:10,f:35,c:30,i:55,e:70,o:65},cf:45,price:45,pe:.05,eint:2.1,lcoe:130,
+    scens:[{p:35,d:'LOW (NVE 2025) — High EU renewables, weak demand. ~35 €/MWh. Large viability gap.'},{p:45,d:'BASE (NVE 2025) — ~58–67 øre/kWh (2030). Moderate electrification, gas in EU mix.'},{p:65,d:'HIGH (NVE 2025) — Strong demand growth (H₂, EVs, industry), delayed EU renewables.'}],
+    fins:['Taxation: DWL ~20 øre/krone (Finansdept.). Broad, well-administered tax base.','Oil fund: Opportunity cost = foregone ~3% real return. Lower DWL than taxation — avoids tax wedge.','Debt: Deferred liability. ~8% DWL equivalent at NGB borrowing cost.'],
+    mecs:['CfD: Strike price agreed at auction. Payments begin at COD (after construction). Two-sided — developer pays back when market exceeds strike. Norway SNII: 115 øre/kWh. Payments vary with market price — when market > strike, government receives difference (revenue or price-suppression tool).','CAPEX grant: Front-loaded at FID. No ongoing payments. Simpler structure. Norway Utsira Nord: ≤35B NOK. Full support cost crystallises upfront — no market price dependency.'],
+    cal:'<strong>Norway</strong> — SSB IOT 1750/1850 2023, domestic Leontief, 65 sectors. VA multiplier 0.71 (high import intensity). Turbines fully imported (~10% domestic SCADA/engineering). CfD: Sørlige Nordsjø II (115 øre/kWh). CAPEX: Utsira Nord (≤35B NOK).'
+  },
+  UK:{name:'United Kingdom',lk:{t:30,f:60,c:55,i:65,e:80,o:75},cf:42,price:80,pe:.15,eint:3.5,lcoe:100,
+    scens:[{p:55,d:'LOW — Rapid UK/EU renewables, weak industrial demand. ~55 £/MWh.'},{p:80,d:'BASE (NESO 2024) — ~80 £/MWh. Gradual gas phase-out, strong CfD pipeline.'},{p:110,d:'HIGH — Delayed nuclear, gas volatility, AI/data centre demand.'}],
+    fins:['Taxation: UK income/corporation tax. DWL ~15–20%.','Oil fund: Not applicable for UK.','Debt: Gilt-financed. ~8% DWL equivalent.'],
+    mecs:['CfD: Most mature CfD regime globally. AR6 (2024) competitive prices. Payments post-COD, market price dependent.','CAPEX grant: Less common in UK. Applicable for demonstration projects.'],
+    cal:'<strong>United Kingdom</strong> — ONS IOATs 2023, Type I, 103 SIC industries. GVA mult 1.91. SeAH Wind (monopiles). JDR/Prysmian (cables). 15.6 GW installed.'
+  },
+  CL:{name:'Chile',lk:{t:5,f:18,c:12,i:25,e:55,o:45},cf:42,price:60,pe:.06,eint:2.6,lcoe:160,
+    scens:[{p:45,d:'LOW — Solar dominance continues, weak offshore premium. ~45 USD/MWh.'},{p:60,d:'BASE — Electrification, green hydrogen, copper mining demand. ~60 USD/MWh.'},{p:85,d:'HIGH — H₂ export demand, grid constraints, mining electrification. ~85 USD/MWh.'}],
+    fins:['Taxation: Chilean income tax base. DWL ~15–20%. Fiscal capacity constrained by copper cycle volatility.','Oil fund: Not applicable.','Debt: Sovereign bond. ~8% DWL equivalent.'],
+    mecs:['CfD: Under consideration in roadmap. Chile has experience with PPA-based renewable auctions (licitaciones ERNC). CfD adaptation under study by Ministerio de Energía.','CAPEX grant: Possible for demonstration projects. World Bank and US DOE Net Zero World technical assistance available.'],
+    cal:'<strong>Chile — Policy development case.</strong> No offshore wind support scheme yet. Roadmap launched March 2024 (Ministerio de Energía / Net Zero World / World Bank). Chile joined GOWA July 2025. Deep Wind Offshore active in Biobío (Nov 2024). 6,000+ km coastline, excellent wind resources — Pacific depth requires floating technology. IO multipliers estimated from OECD ICIO 2025 (CHL) proxies — empirical extraction pending. Chile has land-based wind and solar experience; domestic supply chain capability exists but offshore-specific capacity is nascent.'
+  }
+};
+const S_CURVE=[.30,.35,.25,.10], CONSTRUCT_YRS=4;
+const S={country:'NO',gw:3,capex:4.5,opex:.08,support:35,life:25,speriod:15,cf:45,price:45,lcoe:130,dwl:20,fmult:.85,finIdx:0,mecIdx:0,scen:1,lk:{t:10,f:35,c:30,i:55,e:70,o:65}};
+const CHS={};
+const el=id=>document.getElementById(id);
+const fmt=v=>{const a=Math.abs(v);return(a>=1e3?(a/1e3).toFixed(1)+'B':Math.round(a)+'M')+'€';};
+const fmtS=v=>(v>=0?'+':'-')+fmt(v);
+
+function setC(c){
+  S.country=c;
+  document.querySelectorAll('#ctabs .ctab').forEach((t,i)=>t.classList.toggle('on',['NO','UK','CL'][i]===c));
+  const co=CO[c];
+  el('cal-box').innerHTML=co.cal+`<span class="src">IO: ${IO[c].src}</span>`;
+  Object.assign(S.lk,co.lk);
+  S.cf=co.cf;S.price=co.price;S.lcoe=co.lcoe;
+  [['sl-t','lv-t','t'],['sl-f','lv-f','f'],['sl-c','lv-c','c'],['sl-i','lv-i','i'],['sl-e','lv-e','e'],['sl-o','lv-o','o']].forEach(([si,vi,k])=>{el(si).value=S.lk[k];el(vi).textContent=S.lk[k]+'%';});
+  el('sl-pp').value=S.price;el('v-pp').textContent=S.price;
+  el('sl-lc').value=S.lcoe;el('v-lc').textContent=S.lcoe;
+  el('v-pe').textContent=co.pe.toFixed(2)+' €/MWh/GW';
+  el('v-ei').textContent=co.eint.toFixed(1)+'%';
+  el('v-cf').textContent=S.cf+'%';
+  el('fn1').disabled=c!=='NO';
+  el('fn1').style.opacity=c!=='NO'?'.3':'1';
+  el('fn1').style.cursor=c!=='NO'?'not-allowed':'pointer';
+  if(c!=='NO'&&S.finIdx===1)setFin(0);
+  setFin(S.finIdx);setMec(S.mecIdx);setSc(1);
+}
+
+function setSc(i){
+  S.scen=i;S.price=CO[S.country].scens[i].p;
+  [0,1,2].forEach(j=>el('sc'+j).classList.toggle('on',j===i));
+  el('sc-d').textContent=CO[S.country].scens[i].d;
+  el('sl-pp').value=S.price;el('v-pp').textContent=S.price;
+  go();
+}
+
+function setFin(i){
+  if(i===1&&S.country!=='NO')return;
+  S.finIdx=i;
+  [0,1,2].forEach(j=>el('fn'+j).classList.toggle('on',j===i));
+  el('fin-d').textContent=CO[S.country].fins[i];
+  go();
+}
+
+function setMec(i){
+  S.mecIdx=i;
+  [0,1].forEach(j=>el('mec'+j).classList.toggle('on',j===i));
+  const label=i===0?'CfD':'CAPEX Grant';
+  el('mec-tag').textContent=label;
+  el('mec-note').textContent=i===0?'Payments begin at COD — market price dependent':'Front-loaded at FID — fixed cost crystallises upfront';
+  el('p1-mec-tag').textContent=label;
+  el('p2-mec-tag').textContent=label;
+  el('p2-mec-note').innerHTML=i===0?
+    '<strong>CfD timing:</strong> Annual payments = max(0, strike − market_price) × generation. Payments start at COD (year '+CONSTRUCT_YRS+'+). When market price exceeds strike, government recoup — fiscal cost drops to zero or reverses. Modelled here as expected annual payment at current scenario price; actual payments vary with market price trajectory.':
+    '<strong>CAPEX grant timing:</strong> Full support amount disbursed upfront at FID, matching construction S-curve. No ongoing payments or market price dependency. Higher upfront fiscal cost but simpler structure and no market price risk for government.';
+  go();
+}
+
+function setP(i){
+  document.querySelectorAll('.ptab').forEach((t,j)=>t.classList.toggle('on',j===i));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('on',j===i));
+}
+
+function omY(yr){return S.gw*1000*S.opex*Math.pow(1.025,Math.max(0,yr-1));}
+
+function calc(){
+  const io=IO[S.country],co=CO[S.country];
+  const totC=S.gw*1000*S.capex;
+  const wD=([['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>a+s*(S.lk[k]??S.lk.o)/100,0));
+  const suppC=totC*(S.support/100);
+  const dwlR=S.finIdx===1?.03:S.finIdx===2?.08:S.dwl/100;
+
+  // Ch1 year by year with S-curve
+  let ch1=0;const ch1Y=[];
+  for(let y=1;y<=S.life;y++){
+    let inv=0;
+    if(y<=CONSTRUCT_YRS){
+      const scFrac=S_CURVE[y-1];
+      inv=[['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>{
+        const lk=(S.lk[k]??S.lk.o)/100;
+        const vm=io.cm[k]??io.ov;
+        return a+totC*scFrac*s*lk*vm;
+      },0);
+    }
+    const om_va=omY(Math.max(1,y-CONSTRUCT_YRS))*(S.lk.o/100)*(io.cm.o??io.ov);
+    const dc=y===S.life?Math.round(totC*.04):0;
+    ch1+=inv+om_va+dc;
+    ch1Y.push({inv:Math.round(inv),om:Math.round(om_va),dc});
+  }
+
+  // Ch2
+  const pDrop=+(S.gw*co.pe).toFixed(3);
+  const newP=Math.max(5,S.price-pDrop);
+  const gap=S.lcoe-newP;
+  const bld=Math.max(0,Math.min(100,Math.round(newP/S.lcoe*100)));
+  const totalEI=CATS.reduce((a,c)=>{const cv=io.cats[c];return a+(cv?cv.ei:0);},0)||1;
+  const annPow=totC*6*(co.eint/100)*(pDrop/Math.max(1,S.price));
+  const ch2=annPow*S.life;
+
+  // Ch3 — CfD starts at COD, CAPEX front-loaded at FID matching S-curve
+  let ch3=0;const ch3Y=Array(S.life).fill(0);
+  if(S.mecIdx===0){
+    // CfD: annual payment based on expected gap at current scenario price
+    const annCfD=(suppC/S.speriod)*(1+dwlR)*S.fmult;
+    for(let y=1;y<=S.life;y++){
+      if(y>CONSTRUCT_YRS&&y<=CONSTRUCT_YRS+S.speriod){
+        ch3Y[y-1]=-Math.round(annCfD);
+        ch3-=annCfD;
+      }
+    }
+  } else {
+    // CAPEX: front-loaded matching S-curve
+    for(let y=1;y<=CONSTRUCT_YRS;y++){
+      const cost=suppC*S_CURVE[y-1]*(1+dwlR)*S.fmult;
+      ch3Y[y-1]=-Math.round(cost);
+      ch3-=cost;
+    }
+  }
+
+  const net=ch1+ch2+ch3;
+  const jobs=Math.round(S.gw*2800+S.gw*120);
+  return{ch1,ch2,ch3,net,totC,suppC,wD,pDrop,newP,gap,bld,annPow,ch1Y,ch3Y,jobs,dwlR,io,co,totalEI};
+}
+
+function mkChart(cid,type,data,opts){
+  const tc='rgba(122,179,204,0.5)',gc='rgba(26,74,110,0.4)';
+  if(CHS[cid])CHS[cid].destroy();
+  const stk=opts&&opts.stacked,isH=opts&&opts.h;
+  CHS[cid]=new Chart(el(cid),{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+Math.round(ctx.raw).toLocaleString()+' M€'}}},scales:{x:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},maxTicksLimit:isH?undefined:13,autoSkip:!isH},grid:{display:!!isH,color:gc}},y:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},callback:isH?undefined:v=>Math.abs(v)>=1e3?(v/1e3).toFixed(1)+'B':v+'M'},grid:{display:!isH,color:gc}}}}});
+}
+
+function go(){
+  const r=calc();
+  const L=Array.from({length:S.life},(_,i)=>'Y'+(i+1));
+  const io=r.io;
+
+  el('m1').innerHTML=`<div class="met hi"><div class="ml">TOTAL INVESTMENT</div><div class="mv">${fmt(r.totC+S.gw*1000*S.opex*S.life)}</div><div class="ms">CAPEX + ${S.life}yr OPEX</div></div><div class="met inf"><div class="ml">DOMESTIC VA (IO)</div><div class="mv">${fmt(r.ch1)}</div><div class="ms">Full lifetime</div></div><div class="met"><div class="ml">JOBS (FTE)</div><div class="mv">${r.jobs.toLocaleString()}</div><div class="ms">Construction + O&M</div></div><div class="met"><div class="ml">IMPORT LEAKAGE</div><div class="mv">${Math.round((1-r.wD)*100)}%</div><div class="ms">Of CAPEX</div></div>`;
+
+  const maxV=r.totC*.25;
+  el('sbars').innerHTML=CATS.map(cat=>{const cv=io.cats[cat];if(!cv)return'';const dom=Math.round(r.totC*cv.sh*r.wD*cv.out);const imp=Math.round(r.totC*cv.sh*(1-r.wD));const dW=Math.min(76,Math.round(dom/maxV*100*.65));const iW=Math.min(76-dW,Math.round(imp/maxV*100*.4));return`<div class="br"><span class="bs">${cat}</span><div class="bt"><div class="bd" style="width:${dW}%"></div><div class="bi" style="width:${iW}%"></div></div><span class="bv">${fmt(dom)}</span></div>`;}).join('');
+  el('nt1').textContent=`Source: ${io.src} · Overall VA multiplier: ${io.ov.toFixed(3)}`;
+
+  mkChart('ch-tl','bar',{labels:L,datasets:[{label:'Construction',data:r.ch1Y.map(y=>y.inv),backgroundColor:'#00d4e8',stack:'s'},{label:'O&M',data:r.ch1Y.map(y=>y.om),backgroundColor:'#00e87a',stack:'s'},{label:'Decommission',data:r.ch1Y.map(y=>y.dc),backgroundColor:'#ffaa00',stack:'s'}]},{stacked:true});
+
+  el('v-pe').textContent=r.co.pe.toFixed(2)+' €/MWh/GW';
+  el('v-ei').textContent=r.co.eint.toFixed(1)+'%';
+  const gapEl=el('v-ga');gapEl.textContent=(r.gap>0?'+':'')+Math.round(r.gap)+' €/MWh';gapEl.className='gap-value '+(r.gap>0?'gap-pos':'gap-neg');
+  el('v-bl').textContent=r.bld+'%';
+  el('m2').innerHTML=`<div class="met"><div class="ml">ANNUAL GENERATION</div><div class="mv">${Math.round(S.gw*1000*(S.cf/100)*8760/1000).toLocaleString()} GWh</div><div class="ms">${S.cf}% capacity factor</div></div><div class="met inf"><div class="ml">PRICE REDUCTION</div><div class="mv">−${r.pDrop.toFixed(2)} €/MWh</div><div class="ms">${S.price}→${Math.round(r.newP)} €/MWh</div></div><div class="met pos"><div class="ml">ANNUAL BENEFIT</div><div class="mv">${fmt(r.annPow)}</div><div class="ms">Reduced input costs</div></div><div class="met ${r.gap>0?'neg':'pos'}"><div class="ml">VIABILITY GAP</div><div class="mv">${Math.round(r.gap)} €/MWh</div><div class="ms">LCOE vs market</div></div>`;
+
+  const pwData=CATS.map(cat=>{const cv=io.cats[cat];return cv?Math.round(r.annPow*(cv.ei/r.totalEI)):0;});
+  mkChart('ch-pw','bar',{labels:CATS.map(c=>c.length>20?c.slice(0,18)+'…':c),datasets:[{label:'Benefit',data:pwData,backgroundColor:'#00e87a',borderWidth:0}]},{h:true});
+
+  const dwlAmt=Math.round(Math.abs(r.ch3)*r.dwlR);
+  const mechLabel=S.mecIdx===0?'CfD (post-COD)':'CAPEX (FID front-loaded)';
+  el('m3').innerHTML=`<div class="met"><div class="ml">SUPPORT OUTLAY</div><div class="mv">${fmt(r.suppC)}</div><div class="ms">${mechLabel}</div></div><div class="met neg"><div class="ml">OPPORTUNITY COST</div><div class="mv">−${fmt(Math.abs(r.ch3))}</div><div class="ms">DWL + multiplier</div></div><div class="met amb"><div class="ml">DEADWEIGHT LOSS</div><div class="mv">${fmt(dwlAmt)}</div><div class="ms">${Math.round(r.dwlR*100)}% of support</div></div><div class="met"><div class="ml">POST-SUPPORT</div><div class="mv">${Math.max(0,S.life-S.speriod-(S.mecIdx===0?CONSTRUCT_YRS:0))} yr</div><div class="ms">No govt outlay</div></div>`;
+  el('nt3').textContent=`Mechanism: ${mechLabel}. Support period: ${S.speriod} years. ${S.mecIdx===0?'CfD payments begin at COD (year '+(CONSTRUCT_YRS+1)+'), run for '+S.speriod+' years. Actual annual payment = max(0, strike − market_price) × generation — modelled at expected current scenario price.':'CAPEX grant disbursed at FID, front-loaded matching construction S-curve. No market price dependency.'} Depreciation: typically 20 years straight-line for tax purposes.`;
+
+  mkChart('ch-fn','bar',{labels:L,datasets:[{label:'Financing cost',data:r.ch3Y,backgroundColor:'rgba(255,45,110,0.4)',borderColor:'rgba(255,45,110,0.7)',borderWidth:1}]},{});
+
+  el('s1').textContent=fmtS(r.ch1);el('s2').textContent=fmtS(r.ch2);el('s3').textContent=fmtS(r.ch3);
+  const ne=el('snet');ne.textContent=(r.net>=0?'+':'-')+fmt(r.net);ne.style.color=r.net>=0?'var(--green)':'var(--magenta)';
+
+  mkChart('ch-su','bar',{labels:L,datasets:[{label:'Ch1',data:r.ch1Y.map(y=>y.inv+y.om+y.dc),backgroundColor:'#00d4e8',stack:'s'},{label:'Ch2',data:L.map(()=>Math.round(r.annPow)),backgroundColor:'#00e87a',stack:'s'},{label:'Ch3',data:r.ch3Y,backgroundColor:'rgba(255,45,110,0.4)',stack:'s'}]},{stacked:true});
+}
+
+const tri=(lo,m,hi)=>{const u=Math.random(),f=(m-lo)/(hi-lo);return u<f?lo+Math.sqrt(u*(hi-lo)*(m-lo)):hi-Math.sqrt((1-u)*(hi-lo)*(hi-m));};
+const logn=(mu,s)=>{const z=Math.sqrt(-2*Math.log(Math.random()))*Math.cos(2*Math.PI*Math.random());return Math.exp(Math.log(mu)-s*s/2+s*z);};
+
+function runMC(){
+  const N=10000,res=[],sR={};
+  CATS.forEach(c=>sR[c]=[]);
+  const io=IO[S.country],co=CO[S.country];
+  const dwlR=S.finIdx===1?.03:S.finIdx===2?.08:S.dwl/100;
+  const totalEI=CATS.reduce((a,c)=>{const cv=io.cats[c];return a+(cv?cv.ei:0);},0)||1;
+  for(let i=0;i<N;i++){
+    const capex=tri(S.capex*.6,S.capex,S.capex*1.4);
+    const ms=Math.max(.4,Math.min(2.5,logn(1,.15)));
+    const pe=co.pe*(0.5+Math.random());
+    const totC=S.gw*1000*capex;
+    const wD=([['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>a+s*(S.lk[k]??S.lk.o)/100,0));
+    let c1=0;
+    CATS.forEach(cat=>{const cv=io.cats[cat];if(!cv)return;const sv=totC*cv.sh*wD*cv.out*ms;sR[cat].push(sv);c1+=sv;});
+    c1+=S.gw*1000*S.opex*(S.lk.o/100)*(io.cm.o??io.ov)*ms*S.life;
+    const pD=S.gw*pe;const c2=totC*6*(co.eint/100)*(pD/Math.max(1,S.price))*S.life;
+    const suppC=totC*(S.support/100);const c3=-(suppC*(1+dwlR)*S.fmult);
+    res.push(c1+c2+c3);
+  }
+  res.sort((a,b)=>a-b);
+  const p10=res[Math.floor(N*.1)],p50=res[Math.floor(N*.5)],p90=res[Math.floor(N*.9)];
+  const mean=res.reduce((a,b)=>a+b,0)/N;
+  const probP=Math.round(res.filter(v=>v>0).length/N*100);
+  el('mc-out').style.display='block';
+  el('m-mc').innerHTML=`<div class="met ${p10>=0?'pos':'neg'}"><div class="ml">P10 (PESSIMISTIC)</div><div class="mv">${fmtS(p10)}</div><div class="ms">10th percentile</div></div><div class="met inf"><div class="ml">P50 (MEDIAN)</div><div class="mv">${fmtS(p50)}</div><div class="ms">Median</div></div><div class="met pos"><div class="ml">P90 (OPTIMISTIC)</div><div class="mv">${fmtS(p90)}</div><div class="ms">90th percentile</div></div><div class="met ${probP>=50?'pos':'neg'}"><div class="ml">P(BENEFIT > 0)</div><div class="mv">${probP}%</div><div class="ms">Share positive</div></div>`;
+  const bins=30,mn=res[0],mx=res[N-1],bw=(mx-mn)/bins;
+  const bc=Array(bins).fill(0);res.forEach(v=>bc[Math.min(bins-1,Math.floor((v-mn)/bw))]++);
+  const bl=Array.from({length:bins},(_,i)=>Math.round(mn+i*bw));
+  if(CHS.mc)CHS.mc.destroy();
+  const tc='rgba(122,179,204,0.5)',gc='rgba(26,74,110,0.4)';
+  CHS.mc=new Chart(el('ch-mc'),{type:'bar',data:{labels:bl,datasets:[{data:bc,backgroundColor:bl.map(v=>v>=0?'rgba(0,232,122,.6)':'rgba(255,45,110,.6)'),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>'~'+fmt(parseFloat(c[0].label)),label:c=>c.raw+' simulations'}}},scales:{x:{ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},maxTicksLimit:8,callback:(_,i)=>i%5===0?fmt(bl[i]):''},grid:{display:false}},y:{ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'}},grid:{color:gc}}}}});
+  function varC(fn){const r=[];for(let i=0;i<2000;i++)r.push(fn());return r.reduce((a,b)=>a+(b-mean)**2,0)/2000;}
+  const vC=varC(()=>{const c=tri(S.capex*.6,S.capex,S.capex*1.4);return S.gw*1000*c*.5*IO[S.country].ov;});
+  const vM=varC(()=>{const m=logn(1,.15);return S.gw*1000*S.capex*.5*IO[S.country].ov*m;});
+  const vE=varC(()=>{const e=CO[S.country].pe*(0.5+Math.random());return S.gw*1000*S.capex*6*(CO[S.country].eint/100)*(S.gw*e/Math.max(1,S.price))*S.life;});
+  const tot=vC+vM+vE||1;
+  el('sobol').innerHTML=[{n:'CAPEX uncertainty',v:vC},{n:'IO multiplier',v:vM},{n:'Price elasticity',v:vE}].map(p=>{const w=Math.round(p.v/tot*100*.82);return`<div class="sobol-bar"><span class="sobol-label">${p.n}</span><div class="sobol-track"><div class="sobol-fill" style="width:${w}%"></div></div><span class="sobol-pct">${Math.round(p.v/tot*100)}%</span></div>`;}).join('');
+  const sp10=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.1)]||0);});
+  const sp50=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.5)]||0);});
+  const sp90=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.9)]||0);});
+  const cL=CATS.map(c=>c.length>18?c.slice(0,16)+'…':c);
+  if(CHS.sm)CHS.sm.destroy();
+  CHS.sm=new Chart(el('ch-sm'),{type:'bar',data:{labels:cL,datasets:[{label:'P10',data:sp10,backgroundColor:'rgba(0,212,232,.2)',borderColor:'rgba(0,212,232,.5)',borderWidth:1},{label:'P50',data:sp50,backgroundColor:'rgba(0,212,232,.5)',borderColor:'rgba(0,212,232,.9)',borderWidth:1},{label:'P90',data:sp90,backgroundColor:'rgba(0,232,122,.35)',borderColor:'rgba(0,232,122,.7)',borderWidth:1}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'rgba(122,179,204,0.7)',font:{size:10,family:'IBM Plex Mono'}}},tooltip:{callbacks:{label:c=>' '+c.raw.toLocaleString()+' M€'}}},scales:{x:{ticks:{color:'rgba(122,179,204,0.5)',font:{size:9,family:'IBM Plex Mono'},callback:v=>fmt(v)},grid:{color:'rgba(26,74,110,0.4)'}},y:{ticks:{color:'rgba(122,179,204,0.5)',font:{size:9,family:'IBM Plex Mono'}},grid:{display:false}}}}});
+}
+
+setC('NO');
+</script>
+</body>
+</html>
