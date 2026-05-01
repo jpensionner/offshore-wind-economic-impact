@@ -107,7 +107,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
 .fin-row{display:flex;gap:6px;margin-top:6px;}
 .fin-btn{padding:4px 10px;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--dimmed);cursor:pointer;transition:all .15s;}
 .fin-btn.on{background:var(--amb-dim);border-color:var(--amber);color:var(--amber);}
-.fin-desc{font-size:11px;color:var(--dimmed);margin-top:6px;line-height:1.5;}
+.fin-desc{font-size:11px;color:var(--dimmed);margin-top:8px;line-height:1.5;}
 /* Metrics */
 .mets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px;}
 @media(max-width:640px){.mets{grid-template-columns:repeat(2,1fr);}}
@@ -180,6 +180,53 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--dimmed);}
+/* Framing box */
+.framing-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--dimmed);border-radius:4px;margin-bottom:16px;}
+.framing-box summary{padding:9px 14px;cursor:pointer;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);list-style:none;display:flex;align-items:center;gap:7px;user-select:none;}
+.framing-box summary::before{content:'▶';font-size:7px;flex-shrink:0;transition:transform .2s;}
+.framing-box[open] summary::before{transform:rotate(90deg);}
+.framing-box summary::-webkit-details-marker{display:none;}
+.framing-box p{padding:0 14px 11px;font-size:12px;color:var(--muted);line-height:1.65;}
+.framing-box p strong{color:var(--white);font-weight:500;}
+/* Comparison table */
+.comp-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12px;}
+.comp-table thead tr{background:var(--bg4);border-bottom:2px solid var(--border);}
+.comp-th-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);padding:8px 12px;text-align:left;width:150px;}
+.comp-th{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--hdr-blue);padding:8px 10px;text-align:right;border-left:1px solid var(--border2);}
+.comp-main td{padding:9px 10px;border-bottom:1px solid var(--border2);}
+.comp-main:hover td{background:rgba(0,212,232,0.03);}
+.comp-row-label{color:var(--muted);padding-left:4px;display:flex;align-items:center;gap:6px;}
+.comp-tot td{padding:10px 10px;background:var(--bg4);border-top:2px solid var(--border);border-bottom:2px solid var(--border);}
+.comp-tot .comp-row-label{color:var(--white);font-weight:500;font-family:var(--font-head);font-size:13px;letter-spacing:.04em;}
+.comp-val{font-family:var(--font-mono);font-weight:500;text-align:right;border-left:1px solid var(--border2);}
+.comp-detail td{padding:5px 10px 5px 28px;border-bottom:1px solid rgba(26,74,110,0.4);background:var(--bg3);}
+.comp-detail .comp-row-label{font-size:11px;color:var(--dimmed);}
+.comp-detail .comp-val{font-size:11px;color:var(--dimmed);}
+.expand-btn{width:16px;height:16px;border-radius:2px;border:1px solid var(--border);background:transparent;color:var(--dimmed);font-family:var(--font-mono);font-size:11px;line-height:1;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.expand-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.cv-pos{color:var(--green);}
+.cv-neg{color:var(--magenta);}
+.cv-inf{color:var(--cyan);}
+.cv-amb{color:var(--amber);}
+/* Extracted inline styles */
+.country-bar{overflow-x:auto;}
+.mec-note{font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-left:8px;}
+.p1-mec-tag{display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:1px 6px;border-radius:2px;margin-left:4px;}
+.p2-mec-note{margin-top:-4px;}
+.lr-range{flex:1.5;}
+.ctrl-gap{margin-top:6px;}
+.ctrl-gap-lg{margin-top:8px;}
+.interp-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:4px;padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+
+.comp-hb{margin-bottom:14px;}
+.meth-card{margin-bottom:8px;}
+.comp-table-wrap{overflow-x:auto;}
+.card-gap{margin-bottom:12px;}
+.panel-hint{font-size:11px;color:var(--dimmed);line-height:1.6;margin-bottom:8px;}
+.param-hint{font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;}
+.build-hint{font-size:10px;color:var(--dimmed);margin-top:3px;font-family:var(--font-mono);line-height:1.4;}
+.be-note{margin-top:6px;margin-bottom:16px;}
+.wb-mt{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -197,11 +244,18 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
 
 <div class="sl">Country</div>
 <div class="country-bar" id="ctabs">
-  <button class="ctab on" onclick="setC('NO')">Norway<span class="badge badge-emp">SSB Empirical</span></button>
-  <button class="ctab" onclick="setC('UK')">United Kingdom<span class="badge badge-emp">ONS Empirical</span></button>
+  <button class="ctab on" onclick="setC('NO')">Norway<span class="badge badge-emp">OECD Empirical</span></button>
+  <button class="ctab" onclick="setC('UK')">United Kingdom<span class="badge badge-emp">OECD Empirical</span></button>
+  <button class="ctab" onclick="setC('DE')">Germany<span class="badge badge-emp">OECD Empirical</span></button>
   <button class="ctab" onclick="setC('CL')">Chile<span class="badge badge-pol">Policy Development</span></button>
+  <button class="ctab" onclick="setC('KOR')">South Korea<span class="badge badge-emp">OECD Empirical</span></button>
 </div>
 <div class="cal-box" id="cal-box"></div>
+
+<details class="framing-box" open>
+  <summary>About this model</summary>
+  <p>This tool quantifies the net societal return from public investment in offshore wind across three economic channels: <strong>domestic value creation</strong> (IO multipliers), <strong>power price effects</strong> (merit-order), and <strong>financing cost</strong> (deadweight loss). Results are model outputs, not policy recommendations.</p>
+</details>
 
 <div class="sl">Support mechanism — applies to all channels</div>
 <div class="mec-bar">
@@ -211,7 +265,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
     <button class="mec-btn" id="mec1" onclick="setMec(1)">CAPEX Grant</button>
   </div>
   <span class="mec-tag" id="mec-tag">CfD</span>
-  <span style="font-family:var(--font-mono);font-size:10px;color:var(--dimmed);margin-left:8px;" id="mec-note"></span>
+  <span class="mec-note" id="mec-note"></span>
 </div>
 
 <div class="ptabs" id="ptabs">
@@ -219,7 +273,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
   <button class="ptab" onclick="setP(1)">② Power price</button>
   <button class="ptab" onclick="setP(2)">③ Financing cost</button>
   <button class="ptab" onclick="setP(3)">④ Summary &amp; MC</button>
-  <button class="ptab" onclick="setP(4)">⑤ Methodology</button>
+  <button class="ptab" onclick="setP(4)">⑤ Compare</button>
+  <button class="ptab" onclick="setP(5)">⑥ Methodology</button>
 </div>
 
 <!-- PANEL 1 -->
@@ -229,21 +284,24 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
     <div class="card">
       <div class="card-title">Capacity &amp; cost</div>
       <div class="ctrl"><span class="ctrl-label">Installed capacity</span><span class="ctrl-val" id="v-gw">3.0 GW</span></div>
-      <input type="range" min=".5" max="30" step=".5" value="3" oninput="S.gw=+this.value;el('v-gw').textContent=(+this.value).toFixed(1)+' GW';go()">
-      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">CAPEX per MW (M€)</span><span class="ctrl-val" id="v-cp">4.5</span></div>
-      <input type="range" min="2" max="12" step=".5" value="4.5" oninput="S.capex=+this.value;el('v-cp').textContent=(+this.value).toFixed(1);go()">
-      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">OPEX per MW per year (M€)</span><span class="ctrl-val" id="v-op">0.08</span></div>
-      <input type="range" min=".02" max=".25" step=".01" value=".08" oninput="S.opex=+this.value;el('v-op').textContent=(+this.value).toFixed(2);go()">
+      <input type="range" id="sl-gw" min=".1" max="3" step=".1" value="3" oninput="S.gw=+this.value;el('v-gw').textContent=(+this.value).toFixed(1)+' GW';go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">CAPEX per MW (M€)</span><span class="ctrl-val" id="v-cp">4.5</span></div>
+      <input type="range" id="sl-cp" min="2" max="12" step=".5" value="4.5" oninput="S.capex=+this.value;el('v-cp').textContent=(+this.value).toFixed(1);go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">OPEX per MW per year (M€)</span><span class="ctrl-val" id="v-op">0.08</span></div>
+      <input type="range" id="sl-op" min=".02" max=".25" step=".01" value=".08" oninput="S.opex=+this.value;el('v-op').textContent=(+this.value).toFixed(2);go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">Build rate (GW/yr under construction)</span><span class="ctrl-val" id="v-br">0.5 GW/yr</span></div>
+      <input type="range" id="sl-br" min=".1" max="5" step=".1" value=".5" oninput="S.buildRate=+this.value;el('v-br').textContent=(+this.value).toFixed(1)+' GW/yr';go()">
+      <div class="build-hint">Determines peak concurrent construction workforce. UK peak ~2–3 GW/yr. Norway current ~0.5 GW/yr.</div>
     </div>
     <div class="card">
       <div class="card-title">Timeline &amp; scenario</div>
       <div class="ctrl"><span class="ctrl-label">Government support share (%)</span><span class="ctrl-val" id="v-su">35%</span></div>
-      <input type="range" min="0" max="80" step="5" value="35" oninput="S.support=+this.value;el('v-su').textContent=this.value+'%';go()">
-      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Project lifetime (years)</span><span class="ctrl-val" id="v-li">25</span></div>
-      <input type="range" min="15" max="35" step="5" value="25" oninput="S.life=+this.value;el('v-li').textContent=this.value;go()">
-      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Support period (years)</span><span class="ctrl-val" id="v-sp">15</span></div>
-      <input type="range" min="10" max="25" step="1" value="15" oninput="S.speriod=+this.value;el('v-sp').textContent=this.value;go()">
-      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">NVE/IEA price scenario</span></div>
+      <input type="range" id="sl-su" min="0" max="80" step="5" value="35" oninput="S.support=+this.value;el('v-su').textContent=this.value+'%';go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">Project lifetime (years)</span><span class="ctrl-val" id="v-li">25</span></div>
+      <input type="range" id="sl-li" min="15" max="35" step="5" value="25" oninput="S.life=+this.value;el('v-li').textContent=this.value;go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">Support period (years)</span><span class="ctrl-val" id="v-sp">15</span></div>
+      <input type="range" id="sl-sp" min="10" max="25" step="1" value="15" oninput="S.speriod=+this.value;el('v-sp').textContent=this.value;go()">
+      <div class="ctrl ctrl-gap-lg"><span class="ctrl-label">NVE/IEA price scenario</span></div>
       <div class="scen-row">
         <button class="scen-btn" id="sc0" onclick="setSc(0)">Low</button>
         <button class="scen-btn on" id="sc1" onclick="setSc(1)">Base</button>
@@ -252,14 +310,20 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
       <div class="scen-desc" id="sc-d"></div>
     </div>
   </div>
+  <div class="sl" id="preset-sl">Project presets</div>
+  <div class="card wide card-gap">
+    <div class="card-title" id="preset-title">Quick-load · Reference projects</div>
+    <div class="scen-row" id="preset-row"></div>
+    <div class="scen-desc" id="preset-d"></div>
+  </div>
   <div class="sl">Domestic content by component (%)</div>
-  <div class="card wide" style="margin-bottom:12px;">
-    <div class="lr"><span class="ll">Turbines (nacelle, blades, tower)</span><input type="range" min="5" max="90" step="5" id="sl-t" oninput="S.lk.t=+this.value;el('lv-t').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-t">—</span></div>
-    <div class="lr"><span class="ll">Foundations / mooring</span><input type="range" min="5" max="90" step="5" id="sl-f" oninput="S.lk.f=+this.value;el('lv-f').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-f">—</span></div>
-    <div class="lr"><span class="ll">Cables (array + export)</span><input type="range" min="5" max="90" step="5" id="sl-c" oninput="S.lk.c=+this.value;el('lv-c').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-c">—</span></div>
-    <div class="lr"><span class="ll">Installation services</span><input type="range" min="10" max="95" step="5" id="sl-i" oninput="S.lk.i=+this.value;el('lv-i').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-i">—</span></div>
-    <div class="lr"><span class="ll">Engineering &amp; PM</span><input type="range" min="20" max="98" step="2" id="sl-e" oninput="S.lk.e=+this.value;el('lv-e').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-e">—</span></div>
-    <div class="lr"><span class="ll">O&amp;M (operations phase)</span><input type="range" min="30" max="98" step="2" id="sl-o" oninput="S.lk.o=+this.value;el('lv-o').textContent=this.value+'%';go()" style="flex:1.5;"><span class="lp" id="lv-o">—</span></div>
+  <div class="card wide card-gap">
+    <div class="lr"><span class="ll">Turbines (nacelle, blades, tower)</span><input type="range" min="5" max="90" step="5" id="sl-t" oninput="S.lk.t=+this.value;el('lv-t').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-t">—</span></div>
+    <div class="lr"><span class="ll">Foundations / mooring</span><input type="range" min="5" max="90" step="5" id="sl-f" oninput="S.lk.f=+this.value;el('lv-f').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-f">—</span></div>
+    <div class="lr"><span class="ll">Cables (array + export)</span><input type="range" min="5" max="90" step="5" id="sl-c" oninput="S.lk.c=+this.value;el('lv-c').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-c">—</span></div>
+    <div class="lr"><span class="ll">Installation services</span><input type="range" min="10" max="95" step="5" id="sl-i" oninput="S.lk.i=+this.value;el('lv-i').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-i">—</span></div>
+    <div class="lr"><span class="ll">Engineering &amp; PM</span><input type="range" min="20" max="98" step="2" id="sl-e" oninput="S.lk.e=+this.value;el('lv-e').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-e">—</span></div>
+    <div class="lr"><span class="ll">O&amp;M (operations phase)</span><input type="range" min="30" max="98" step="2" id="sl-o" oninput="S.lk.o=+this.value;el('lv-o').textContent=this.value+'%';go()" class="lr-range"><span class="lp" id="lv-o">—</span></div>
   </div>
   <div class="sl">Results — Channel 1</div>
   <div class="mets" id="m1"></div>
@@ -282,27 +346,27 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
 
 <!-- PANEL 2 -->
 <div class="panel" id="p1">
-  <div class="hb"><strong>Channel 2 — merit-order effect:</strong> New capacity lowers wholesale price → reduced energy input costs → propagated through IO linkages. Bachmann et al. (2022) reversed. CfD note: when market price exceeds strike price, government may recoup the difference — interaction with this channel is a research gap flagged in article 2. <span id="p1-mec-tag" style="display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:1px 6px;border-radius:2px;margin-left:4px;"></span></div>
+  <div class="hb"><strong>Channel 2 — merit-order effect:</strong> New capacity lowers wholesale price → reduced energy input costs → propagated through IO linkages. Bachmann et al. (2022) reversed. CfD note: when market price exceeds strike price, government may recoup the difference — interaction with this channel is a research gap flagged in article 2. <span class="p1-mec-tag" id="p1-mec-tag"></span></div>
   <div class="g2">
     <div class="card">
       <div class="card-title">Power market</div>
       <div class="ctrl"><span class="ctrl-label">Capacity factor (%)</span><span class="ctrl-val" id="v-cf">45%</span></div>
-      <input type="range" min="30" max="60" step="1" value="45" oninput="S.cf=+this.value;el('v-cf').textContent=this.value+'%';go()">
-      <div class="ctrl" style="margin-top:6px;"><span class="ctrl-label">Long-run power price (€/MWh)</span><span class="ctrl-val" id="v-pp">45</span></div>
+      <input type="range" id="sl-cf" min="30" max="60" step="1" value="45" oninput="S.cf=+this.value;el('v-cf').textContent=this.value+'%';go()">
+      <div class="ctrl ctrl-gap"><span class="ctrl-label">Long-run power price (€/MWh)</span><span class="ctrl-val" id="v-pp">45</span></div>
       <input type="range" min="20" max="150" step="5" id="sl-pp" value="45" oninput="S.price=+this.value;el('v-pp').textContent=this.value;go()">
     </div>
     <div class="card">
       <div class="card-title">Country parameters</div>
       <div class="ctrl"><span class="ctrl-label">Merit-order effect (€/MWh per GW)</span><span class="ctrl-val" id="v-pe">—</span></div>
       <div class="ctrl"><span class="ctrl-label">Economy energy intensity (%)</span><span class="ctrl-val" id="v-ei">—</span></div>
-      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">LCOE (€/MWh)</span><span class="ctrl-val" id="v-lc">130</span></div>
+      <div class="ctrl ctrl-gap-lg"><span class="ctrl-label">LCOE (€/MWh)</span><span class="ctrl-val" id="v-lc">130</span></div>
       <input type="range" min="60" max="250" step="5" id="sl-lc" value="130" oninput="S.lcoe=+this.value;el('v-lc').textContent=this.value;go()">
     </div>
     <div class="card wide">
       <div class="card-title">Viability gap — feedback loop</div>
-      <div style="font-size:11px;color:var(--dimmed);line-height:1.6;margin-bottom:8px;">Price models that assume buildout at market price are self-contradicting: low price → no FID → no buildout → price stays high. NVE (2025): Norwegian offshore wind unlikely profitable without support in most scenarios to 2050.</div>
+      <div class="panel-hint">Price models that assume buildout at market price are self-contradicting: low price → no FID → no buildout → price stays high. NVE (2025): Norwegian offshore wind unlikely profitable without support in most scenarios to 2050.</div>
       <div class="gap-display"><span class="gap-label">Viability gap (LCOE − market price)</span><span class="gap-value" id="v-ga">—</span></div>
-      <div class="gap-display" style="margin-top:6px;"><span class="gap-label">Capacity viable at market price (no support)</span><span class="gap-value" id="v-bl">—</span></div>
+      <div class="gap-display ctrl-gap"><span class="gap-label">Capacity viable at market price (no support)</span><span class="gap-value" id="v-bl">—</span></div>
     </div>
   </div>
   <div class="sl">Results — Channel 2</div>
@@ -312,12 +376,18 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
     <div style="position:relative;height:220px;"><canvas id="ch-pw" role="img" aria-label="Sector power price benefit">Sector power price benefit.</canvas></div>
     <div class="nt">Distribution weighted by sector energy intensity from national accounts. Energy-intensive industries receive largest benefit from lower electricity input costs.</div>
   </div>
+  <div class="cc">
+    <div class="ct">Required support share at break-even — sensitivity to long-run power price assumption</div>
+    <div class="panel-hint">At each assumed power price, the curve shows the support share at which net societal benefit = 0, holding all other parameters fixed. Dashed line = current support share setting. Value-neutral display — model output only, not a recommendation.</div>
+    <div style="position:relative;height:220px;"><canvas id="ch-vg" role="img" aria-label="Required support share at break-even vs power price">Viability gap chart.</canvas></div>
+    <div class="nt" id="vg-note"></div>
+  </div>
 </div>
 
 <!-- PANEL 3 -->
 <div class="panel" id="p2">
-  <div class="hb"><strong>Channel 3 — financing cost:</strong> Government support must be financed. DWL is the efficiency cost of raising public funds — not the support amount itself. Each krone raised via distortionary taxation loses approximately DWL% in social welfare. <span id="p2-mec-tag" style="display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,232,0.3);padding:1px 6px;border-radius:2px;margin-left:4px;"></span></div>
-  <div class="hb" id="p2-mec-note" style="margin-top:-4px;"></div>
+  <div class="hb"><strong>Channel 3 — financing cost:</strong> Government support must be financed. DWL is the efficiency cost of raising public funds — not the support amount itself. Each krone raised via distortionary taxation loses approximately DWL% in social welfare. <span class="p1-mec-tag" id="p2-mec-tag"></span></div>
+  <div class="hb p2-mec-note" id="p2-mec-note"></div>
   <div class="g2">
     <div class="card">
       <div class="card-title">Financing source</div>
@@ -326,16 +396,16 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
         <button class="fin-btn" id="fn1" onclick="setFin(1)">Oil fund (NO)</button>
         <button class="fin-btn" id="fn2" onclick="setFin(2)">Debt</button>
       </div>
-      <div class="fin-desc" id="fin-d" style="margin-top:8px;font-size:11px;color:var(--dimmed);line-height:1.5;"></div>
+      <div class="fin-desc" id="fin-d"></div>
     </div>
     <div class="card">
       <div class="card-title">Cost parameters</div>
       <div class="ctrl"><span class="ctrl-label">Deadweight loss rate (%)</span><span class="ctrl-val" id="v-dw">20%</span></div>
       <input type="range" min="5" max="40" step="5" value="20" oninput="S.dwl=+this.value;el('v-dw').textContent=this.value+'%';go()">
-      <div style="font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;">Efficiency cost per krone raised via distortionary tax. Not the tax rate. Norwegian estimate ~20 øre/krone (Finansdept., Browning 1976).</div>
-      <div class="ctrl" style="margin-top:8px;"><span class="ctrl-label">Fiscal multiplier</span><span class="ctrl-val" id="v-fm">0.85</span></div>
+      <div class="param-hint">Efficiency cost per krone raised via distortionary tax. Not the tax rate. Norwegian estimate ~20 øre/krone (Finansdept., Browning 1976).</div>
+      <div class="ctrl ctrl-gap-lg"><span class="ctrl-label">Fiscal multiplier</span><span class="ctrl-val" id="v-fm">0.85</span></div>
       <input type="range" min=".3" max="1.5" step=".05" value=".85" oninput="S.fmult=+this.value;el('v-fm').textContent=(+this.value).toFixed(2);go()">
-      <div style="font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;">GDP change per krone public spending. &lt;1 = crowding out. Small open economy: 0.6–0.9 (Auerbach &amp; Gorodnichenko 2012).</div>
+      <div class="param-hint">GDP change per krone public spending. &lt;1 = crowding out. Small open economy: 0.6–0.9 (Auerbach &amp; Gorodnichenko 2012).</div>
     </div>
   </div>
   <div class="sl">Results — Channel 3</div>
@@ -356,6 +426,11 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
     <div class="srow"><span>③ Financing cost (opportunity cost of support)</span><span class="sv" id="s3" style="color:var(--magenta);">—</span></div>
     <div class="srow tot"><span>Net societal benefit</span><span class="sv" id="snet">—</span></div>
   </div>
+  <div class="gap-display ctrl-gap-lg">
+    <span class="gap-label">Break-even support share — net societal benefit = 0</span>
+    <span class="gap-value" id="s-be">—</span>
+  </div>
+  <div class="nt be-note" id="be-note"></div>
   <div class="cc">
     <div class="ct">Year-by-year — all channels stacked · full project lifetime</div>
     <div class="leg">
@@ -370,6 +445,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
   <button class="run-btn" onclick="runMC()">Run Monte Carlo (10 000 simulations)</button>
   <div id="mc-out" style="display:none;">
     <div class="mets" id="m-mc"></div>
+    <div class="interp-box" id="mc-interp"></div>
     <div class="g2">
       <div class="cc" style="margin-bottom:0;">
         <div class="ct">Distribution of net societal benefit</div>
@@ -389,26 +465,32 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
   </div>
 </div>
 
-<!-- PANEL 5 -->
+<!-- PANEL 5 — Compare -->
 <div class="panel" id="p4">
-  <div class="sl">IO multiplier sources</div>
-  <div class="card" style="margin-bottom:8px;">
-    <div class="card-title">Norway — SSB national accounts 2023</div>
-    <div class="ref-item"><span class="ref-tag">Method</span>Domestic Leontief (I−A_d)⁻¹. A_d from SSB IOT 1850 (domestic), x from IOT 1750 (total). VA from row 104. 65 sectors, domestic share 74.1%. Mean output mult: 1.55. Mean VA mult: 0.71.</div>
-    <div class="ref-item"><span class="ref-tag">Source</span>SSB IOT 1750/1850 2023. Nasjonalregnskap, kryssløpstabeller.</div>
+  <div class="sl">Country comparison — same project parameters, each country's own IO &amp; price defaults</div>
+  <div class="hb comp-hb">Project scale (GW, CAPEX, support share, lifetime) taken from current sliders. IO multipliers, domestic content mix, power price, and energy intensity use each country's own defaults. <strong>Not a policy ranking</strong> — model output illustrating how the same investment plays out across different economic structures.</div>
+  <div id="comp-wrap"></div>
+</div>
+
+<!-- PANEL 6 — Methodology -->
+<div class="panel" id="p5">
+  <div class="sl">IO multiplier sources — OECD ICIO 2025 edition (all countries)</div>
+  <div class="card meth-card">
+    <div class="card-title">All five countries — consistent methodology</div>
+    <div class="ref-item"><span class="ref-tag">Method</span>Domestic Leontief inverse (I−A^d)⁻¹ computed from OECD Inter-Country Input-Output Tables, 2025 edition, reference year 2022. 50 ISIC Rev.4 industries per country. VA and gross output (x) taken directly from explicit VA and OUT rows — no row-sum approximation needed. Sector VA multipliers weighted by gross output share within each of 8 offshore wind supply chain categories.</div>
+    <div class="ref-item"><span class="ref-tag">Source</span>OECD ICIO 2025 (2022_SML.csv). Domestic intermediate block Z^d for each country. Extraction: scripts/extract_oecd_icio.py. Consistent cross-country methodology — single source for NO, UK, DE, CL, KOR.</div>
   </div>
-  <div class="card" style="margin-bottom:8px;">
-    <div class="card-title">United Kingdom — ONS IO Analytical Tables 2023</div>
-    <div class="ref-item"><span class="ref-tag">Method</span>Type I GVA multipliers from ONS Multipliers sheet. 103 SIC industries. Mean GVA mult: 1.91. Construction: 2.29, Manufacturing: 2.17, Maritime: 2.02.</div>
-    <div class="ref-item"><span class="ref-tag">Source</span>ONS Input-Output Analytical Tables 2023 (Blue Book 2025).</div>
-  </div>
-  <div class="card" style="margin-bottom:8px;">
-    <div class="card-title">Chile — estimated from OECD ICIO 2025 + Latin America proxies</div>
-    <div class="ref-item"><span class="ref-tag">Status</span>No offshore wind yet. Multipliers estimated from OECD ICIO 2025 (CHL available, empirical extraction pending in Claude Code). Current values derived from Latin American IO literature and OECD TiVA Chile data. Chile has experience with land-based wind and solar under support schemes — domestic supply chain capability exists but is more limited than Europe for offshore-specific components.</div>
-    <div class="ref-item"><span class="ref-tag">Source</span>OECD ICIO 2025 (CHL, 50 industries, 1995–2022). Banco Central de Chile MIP (111 activities, 27-month lag). Empirical extraction queued.</div>
+  <div class="card meth-card">
+    <div class="card-title">Country-specific notes</div>
+    <div class="ref-item"><span class="ref-tag">Norway (0.829)</span>High energy-supply sector share (~28% gross output, driven by oil &amp; gas B06). B06 assigned to Energy supply, not Maritime, to avoid inflating maritime multiplier. Maritime &amp; offshore cluster (B07/B08/B09, C301 shipbuilding, H50/H51): VA mult 0.639.</div>
+    <div class="ref-item"><span class="ref-tag">United Kingdom (0.803)</span>Large services economy; other industries 52% of gross output. Construction VA mult 0.803, reflecting deep domestic supply chain. Energy supply VA mult 0.542 — import-intensive sector.</div>
+    <div class="ref-item"><span class="ref-tag">Germany (0.769)</span>Manufacturing dominates at 27.5% gross output share — highest of all five countries. Electrical &amp; electronics VA mult 0.657. Energy supply VA mult 0.720.</div>
+    <div class="ref-item"><span class="ref-tag">Chile (0.786)</span>Empirical OECD data — no longer estimated. Maritime &amp; offshore VA mult 0.830 — highest of all countries, reflecting large mining support services and port logistics cluster. No offshore wind support scheme yet; policy development case.</div>
+    <div class="ref-item"><span class="ref-tag">South Korea (0.681)</span>Lowest overall VA multiplier — highly export-integrated manufacturing (33.6% gross output). World's largest shipbuilder; Maritime VA mult 0.590. Manufacturing VA mult 0.538, reflecting import-intensive global supply chains.</div>
   </div>
   <div class="sl">Key references</div>
   <div class="card">
+    <div class="ref-item"><span class="ref-tag">IO data</span>OECD ICIO 2025 ed. oecd.org/sti/ind/inter-country-input-output-tables. Reference year 2022.</div>
     <div class="ref-item"><span class="ref-tag">IO methodology</span>Miller &amp; Blair (2009). Input-Output Analysis. Cambridge. — Leontief (1951).</div>
     <div class="ref-item"><span class="ref-tag">Power channel</span>Bachmann et al. (2022). NBER WP. — Hirth (2013). Energy Economics 38.</div>
     <div class="ref-item"><span class="ref-tag">Financing cost</span>Browning (1976). JPE. — Auerbach &amp; Gorodnichenko (2012). AEJ: Economic Policy.</div>
@@ -417,16 +499,18 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:2px;bac
     <div class="ref-item"><span class="ref-tag">Chile roadmap</span>Ministerio de Energía / Net Zero World / World Bank (2024). Hoja de Ruta Energía Eólica Marina. — Chile joined GOWA July 2025.</div>
     <div class="ref-item"><span class="ref-tag">Supply chain</span>Adelphi (2023). — WindEurope (2023).</div>
   </div>
-  <div class="wb" style="margin-top:10px;"><strong>⚠ Limitations:</strong> UK multipliers Type I only. Chile multipliers estimated — empirical OECD ICIO extraction pending. Germany excluded pending FIGARO fix. MC covers parametric uncertainty only.</div>
+  <div class="wb wb-mt"><strong>⚠ Limitations:</strong> IO multipliers from single reference year (2022) — structural change not captured. MC covers parametric uncertainty only (CAPEX, IO multiplier, price elasticity); model structure uncertainty excluded. Channel 2 (merit-order) uses linear approximation. Chile: no offshore supply chain yet — multipliers reflect general economy structure.</div>
 </div>
 
 </div>
 
 <script>
 const IO = {
-  NO:{cats:{'Manufacturing':{va:.613,out:1.651,sh:.134,ei:2.8},'Maritime & offshore':{va:.619,out:1.402,sh:.205,ei:5.1},'Construction':{va:.720,out:1.923,sh:.011,ei:1.2},'Electrical & electronics':{va:.698,out:1.482,sh:.029,ei:3.2},'Professional services':{va:.790,out:1.536,sh:.045,ei:.8},'Transport & logistics':{va:.631,out:1.589,sh:.064,ei:5.4},'Energy supply':{va:.811,out:1.544,sh:.031,ei:8.9},'Other industries':{va:.822,out:1.575,sh:.224,ei:1.6}},cm:{t:.613,f:.700,c:.672,i:.760,e:.790,o:.705,x:.822},ov:.712,src:'SSB IOT 1750/1850 2023 · Domestic Leontief (I−A_d)⁻¹ · 65 sectors · dom. share 74.1%'},
-  UK:{cats:{'Manufacturing':{va:2.168,out:1.778,sh:.152,ei:3.8},'Maritime & offshore':{va:2.023,out:1.788,sh:.048,ei:5.2},'Construction':{va:2.286,out:2.121,sh:.042,ei:1.4},'Electrical & electronics':{va:2.902,out:2.246,sh:.038,ei:3.5},'Professional services':{va:1.488,out:1.509,sh:.058,ei:.7},'Transport & logistics':{va:2.244,out:1.840,sh:.048,ei:5.4},'Energy supply':{va:1.800,out:1.700,sh:.040,ei:9.1},'Other industries':{va:1.573,out:1.621,sh:.407,ei:1.8}},cm:{t:2.168,f:2.258,c:2.496,i:2.102,e:1.488,o:1.756,x:1.573},ov:1.912,src:'ONS IO Analytical Tables 2023 (Blue Book 2025) · Type I multipliers · 103 SIC industries'},
-  CL:{cats:{'Manufacturing':{va:.72,out:1.82,sh:.16,ei:3.1},'Maritime & offshore':{va:.68,out:1.61,sh:.06,ei:4.5},'Construction':{va:.81,out:1.94,sh:.08,ei:1.3},'Electrical & electronics':{va:.74,out:1.65,sh:.04,ei:2.8},'Professional services':{va:.83,out:1.68,sh:.11,ei:.7},'Transport & logistics':{va:.71,out:1.79,sh:.07,ei:4.9},'Energy supply':{va:.76,out:1.87,sh:.05,ei:8.2},'Other industries':{va:.79,out:1.62,sh:.43,ei:1.4}},cm:{t:.72,f:.76,c:.73,i:.74,e:.83,o:.70,x:.79},ov:.756,src:'Estimated from OECD ICIO 2025 (CHL) proxies · Banco Central de Chile MIP extraction pending · treat as indicative'}
+  NO:{cats:{'Manufacturing':{va:.663,out:1.869,sh:.1097,ei:2.8},'Maritime & offshore':{va:.639,out:1.831,sh:.0535,ei:5.1},'Construction':{va:.707,out:1.895,sh:.0843,ei:1.2},'Electrical & electronics':{va:.585,out:1.466,sh:.0071,ei:3.2},'Professional services':{va:.802,out:1.565,sh:.0778,ei:.8},'Transport & logistics':{va:.728,out:1.680,sh:.0300,ei:5.4},'Energy supply':{va:.956,out:1.164,sh:.2816,ei:8.9},'Other industries':{va:.857,out:1.490,sh:.3560,ei:1.5}},cm:{t:.663,f:.689,c:.608,i:.659,e:.802,o:.721,x:.857},ov:.829,src:'OECD ICIO 2025 ed. (ref yr 2022) · Domestic Leontief (I−A^d)⁻¹ · 50 ISIC Rev.4 industries · Empirical'},
+  UK:{cats:{'Manufacturing':{va:.654,out:1.798,sh:.1277,ei:3.8},'Maritime & offshore':{va:.680,out:1.926,sh:.0118,ei:5.2},'Construction':{va:.803,out:2.064,sh:.0846,ei:1.4},'Electrical & electronics':{va:.751,out:1.568,sh:.0090,ei:3.5},'Professional services':{va:.846,out:1.643,sh:.1390,ei:.7},'Transport & logistics':{va:.804,out:1.802,sh:.0362,ei:5.4},'Energy supply':{va:.542,out:2.409,sh:.0698,ei:9.1},'Other industries':{va:.867,out:1.545,sh:.5219,ei:1.8}},cm:{t:.654,f:.743,c:.722,i:.717,e:.846,o:.763,x:.867},ov:.803,src:'OECD ICIO 2025 ed. (ref yr 2022) · Domestic Leontief (I−A^d)⁻¹ · 50 ISIC Rev.4 industries · Empirical'},
+  DE:{cats:{'Manufacturing':{va:.629,out:1.826,sh:.2751,ei:5.1},'Maritime & offshore':{va:.663,out:1.848,sh:.0144,ei:4.9},'Construction':{va:.786,out:1.889,sh:.0554,ei:1.5},'Electrical & electronics':{va:.657,out:1.603,sh:.0308,ei:3.8},'Professional services':{va:.826,out:1.675,sh:.1092,ei:.6},'Transport & logistics':{va:.740,out:1.878,sh:.0503,ei:5.8},'Energy supply':{va:.720,out:1.824,sh:.0397,ei:9.8},'Other industries':{va:.863,out:1.553,sh:.4251,ei:2.1}},cm:{t:.629,f:.723,c:.649,i:.700,e:.826,o:.744,x:.863},ov:.769,src:'OECD ICIO 2025 ed. (ref yr 2022) · Domestic Leontief (I−A^d)⁻¹ · 50 ISIC Rev.4 industries · Empirical'},
+  CL:{cats:{'Manufacturing':{va:.639,out:1.867,sh:.1799,ei:3.2},'Maritime & offshore':{va:.830,out:1.528,sh:.1328,ei:4.5},'Construction':{va:.767,out:1.725,sh:.0719,ei:1.3},'Electrical & electronics':{va:.740,out:1.692,sh:.0243,ei:2.8},'Professional services':{va:.840,out:1.815,sh:.0966,ei:.7},'Transport & logistics':{va:.702,out:1.591,sh:.0530,ei:4.9},'Energy supply':{va:.647,out:1.567,sh:.0322,ei:8.2},'Other industries':{va:.852,out:1.576,sh:.4094,ei:1.4}},cm:{t:.639,f:.716,c:.710,i:.811,e:.840,o:.835,x:.852},ov:.786,src:'OECD ICIO 2025 ed. (ref yr 2022) · Domestic Leontief (I−A^d)⁻¹ · 50 ISIC Rev.4 industries · Empirical'},
+  KOR:{cats:{'Manufacturing':{va:.538,out:2.075,sh:.3360,ei:4.5},'Maritime & offshore':{va:.590,out:1.947,sh:.0229,ei:4.8},'Construction':{va:.716,out:2.002,sh:.0557,ei:1.4},'Electrical & electronics':{va:.636,out:1.864,sh:.1069,ei:3.2},'Professional services':{va:.813,out:1.800,sh:.0830,ei:.6},'Transport & logistics':{va:.732,out:1.782,sh:.0259,ei:5.2},'Energy supply':{va:.451,out:1.722,sh:.0307,ei:9.5},'Other industries':{va:.822,out:1.694,sh:.3388,ei:1.9}},cm:{t:.538,f:.645,c:.607,i:.628,e:.813,o:.702,x:.822},ov:.681,src:'OECD ICIO 2025 ed. (ref yr 2022) · Domestic Leontief (I−A^d)⁻¹ · 50 ISIC Rev.4 industries · Empirical'},
 };
 const CATS = Object.keys(IO.NO.cats);
 const CO = {
@@ -434,31 +518,94 @@ const CO = {
     scens:[{p:35,d:'LOW (NVE 2025) — High EU renewables, weak demand. ~35 €/MWh. Large viability gap.'},{p:45,d:'BASE (NVE 2025) — ~58–67 øre/kWh (2030). Moderate electrification, gas in EU mix.'},{p:65,d:'HIGH (NVE 2025) — Strong demand growth (H₂, EVs, industry), delayed EU renewables.'}],
     fins:['Taxation: DWL ~20 øre/krone (Finansdept.). Broad, well-administered tax base.','Oil fund: Opportunity cost = foregone ~3% real return. Lower DWL than taxation — avoids tax wedge.','Debt: Deferred liability. ~8% DWL equivalent at NGB borrowing cost.'],
     mecs:['CfD: Strike price agreed at auction. Payments begin at COD (after construction). Two-sided — developer pays back when market exceeds strike. Norway SNII: 115 øre/kWh. Payments vary with market price — when market > strike, government receives difference (revenue or price-suppression tool).','CAPEX grant: Front-loaded at FID. No ongoing payments. Simpler structure. Norway Utsira Nord: ≤35B NOK. Full support cost crystallises upfront — no market price dependency.'],
-    cal:'<strong>Norway</strong> — SSB IOT 1750/1850 2023, domestic Leontief, 65 sectors. VA multiplier 0.71 (high import intensity). Turbines fully imported (~10% domestic SCADA/engineering). CfD: Sørlige Nordsjø II (115 øre/kWh). CAPEX: Utsira Nord (≤35B NOK).'
+    cal:'<strong>Norway</strong> — OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Overall VA mult 0.829. High energy-supply share (oil/gas ~28% of economy). Maritime & offshore cluster intact. CfD: Sørlige Nordsjø II (115 øre/kWh). CAPEX: Utsira Nord (≤35B NOK).'
   },
   UK:{name:'United Kingdom',lk:{t:30,f:60,c:55,i:65,e:80,o:75},cf:42,price:80,pe:.15,eint:3.5,lcoe:100,
     scens:[{p:55,d:'LOW — Rapid UK/EU renewables, weak industrial demand. ~55 £/MWh.'},{p:80,d:'BASE (NESO 2024) — ~80 £/MWh. Gradual gas phase-out, strong CfD pipeline.'},{p:110,d:'HIGH — Delayed nuclear, gas volatility, AI/data centre demand.'}],
     fins:['Taxation: UK income/corporation tax. DWL ~15–20%.','Oil fund: Not applicable for UK.','Debt: Gilt-financed. ~8% DWL equivalent.'],
     mecs:['CfD: Most mature CfD regime globally. AR6 (2024) competitive prices. Payments post-COD, market price dependent.','CAPEX grant: Less common in UK. Applicable for demonstration projects.'],
-    cal:'<strong>United Kingdom</strong> — ONS IOATs 2023, Type I, 103 SIC industries. GVA mult 1.91. SeAH Wind (monopiles). JDR/Prysmian (cables). 15.6 GW installed.'
+    cal:'<strong>United Kingdom</strong> — OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Overall VA mult 0.803. SeAH Wind (monopiles, Teesside). JDR/Prysmian (cables). 15.6 GW installed capacity.'
+  },
+  DE:{name:'Germany',lk:{t:25,f:55,c:45,i:60,e:75,o:70},cf:40,price:80,pe:.10,eint:3.5,lcoe:110,
+    scens:[{p:60,d:'LOW (ENTSO-E 2024) — High renewables penetration, industrial demand weakness. ~60 €/MWh.'},{p:80,d:'BASE (Bundesnetzagentur 2024) — Gradual coal/gas phase-out, offshore ramp-up. ~80 €/MWh.'},{p:110,d:'HIGH — Delayed nuclear replacement, H₂ production demand, industrial electrification.'}],
+    fins:['Taxation: German income/corporate tax. DWL ~15–20%. Broad, well-administered tax base.','Oil fund: Not applicable for Germany.','Debt: Bund-financed. ~8% DWL equivalent.'],
+    mecs:['CfD (EEG Ausschreibung): Competitive auction. Payments post-COD, market price dependent. Germany has run offshore auctions since 2017.','CAPEX grant: Not primary instrument. Offshore projects use EEG competitive bidding.'],
+    cal:'<strong>Germany</strong> — OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Overall VA mult 0.769. 8.5 GW installed offshore. 2030 target: 30 GW. Arcadis Ost 1 (257 MW, Baltic, COD 2024). Manufacturing sector dominates economy (27.5% share).'
+  },
+  KOR:{name:'South Korea',lk:{t:35,f:65,c:40,i:70,e:80,o:70},cf:35,price:80,pe:.06,eint:4.0,lcoe:120,
+    scens:[{p:60,d:'LOW — Rapid renewables deployment, weak industrial demand. ~60 €/MWh equivalent.'},{p:80,d:'BASE (MOTIE 2024) — RPS-to-CfD transition, steady offshore ramp-up. ~80 €/MWh equivalent.'},{p:100,d:'HIGH — Energy security premium, H₂ export demand, LNG price volatility.'}],
+    fins:['Taxation: Korean income/corporate tax. DWL ~15–20%.','Oil fund: Not applicable for South Korea.','Debt: Government bond. ~8% DWL equivalent.'],
+    mecs:['CfD (competitive bidding): Korea transitioning from RPS to CfD-style competitive auctions. MOTIE 2023 offshore wind bidding framework.','CAPEX grant: Available for floating/pilot demonstration projects. K-New Deal offshore support.'],
+    cal:'<strong>South Korea</strong> — OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Overall VA mult 0.681. World\'s largest shipbuilder — high maritime domestic content. Manufacturing 33.6% of economy. 2.1 GW operational, 12 GW 2030 target (Yellow Sea + East Sea).'
   },
   CL:{name:'Chile',lk:{t:5,f:18,c:12,i:25,e:55,o:45},cf:42,price:60,pe:.06,eint:2.6,lcoe:160,
     scens:[{p:45,d:'LOW — Solar dominance continues, weak offshore premium. ~45 USD/MWh.'},{p:60,d:'BASE — Electrification, green hydrogen, copper mining demand. ~60 USD/MWh.'},{p:85,d:'HIGH — H₂ export demand, grid constraints, mining electrification. ~85 USD/MWh.'}],
     fins:['Taxation: Chilean income tax base. DWL ~15–20%. Fiscal capacity constrained by copper cycle volatility.','Oil fund: Not applicable.','Debt: Sovereign bond. ~8% DWL equivalent.'],
     mecs:['CfD: Under consideration in roadmap. Chile has experience with PPA-based renewable auctions (licitaciones ERNC). CfD adaptation under study by Ministerio de Energía.','CAPEX grant: Possible for demonstration projects. World Bank and US DOE Net Zero World technical assistance available.'],
-    cal:'<strong>Chile — Policy development case.</strong> No offshore wind support scheme yet. Roadmap launched March 2024 (Ministerio de Energía / Net Zero World / World Bank). Chile joined GOWA July 2025. Deep Wind Offshore active in Biobío (Nov 2024). 6,000+ km coastline, excellent wind resources — Pacific depth requires floating technology. IO multipliers estimated from OECD ICIO 2025 (CHL) proxies — empirical extraction pending. Chile has land-based wind and solar experience; domestic supply chain capability exists but offshore-specific capacity is nascent.'
+    cal:'<strong>Chile — Policy development case.</strong> No offshore wind support scheme yet. Roadmap launched March 2024. Chile joined GOWA July 2025. Deep Wind Offshore active in Biobío. 6,000+ km coastline, Pacific depth requires floating technology. OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Overall VA mult 0.786. Notable: Maritime &amp; offshore VA mult 0.830 — reflects large mining/port services cluster.'
+  }
+};
+const PRESETS={
+  NO:{
+    SN2:{label:'Sørlige Nordsjø II',gw:1.5,capex:4.5,opex:.08,support:35,speriod:15,life:25,buildRate:.5,mecIdx:0,cf:46,lcoe:110,scen:1,
+      desc:'1.5 GW bottom-fixed · CfD · 4.5 M€/MW · strike ~115 øre/kWh · Sørlige Nordsjø II auction 2023 · COD est. 2030–2031'},
+    UN:{label:'Utsira Nord',gw:.5,capex:7.5,opex:.15,support:80,speriod:20,life:25,buildRate:.2,mecIdx:1,cf:48,lcoe:180,scen:1,
+      desc:'500 MW floating demo · CAPEX grant ≤35B NOK · 7.5 M€/MW · pre-commercial floating technology · Utsira Nord licensing round'}
+  },
+  UK:{
+    GreenVolt:{label:'Green Volt',gw:.75,capex:3.2,opex:.08,support:28,speriod:15,life:25,buildRate:.3,mecIdx:0,cf:43,lcoe:90,scen:1,
+      desc:'750 MW bottom-fixed · CfD AR6 · Equinor/Orsted JV · Norwegian North Sea (UK sector) · COD est. 2027'},
+    Hornsea3:{label:'Hornsea 3',gw:2.85,capex:3.0,opex:.07,support:25,speriod:15,life:25,buildRate:1.0,mecIdx:0,cf:48,lcoe:85,scen:1,
+      desc:'2.85 GW bottom-fixed · CfD · largest consented UK offshore project · Orsted · Yorkshire coast · COD est. 2030'}
+  },
+  DE:{
+    ArcadisOst:{label:'Arcadis Ost 1',gw:.257,capex:3.5,opex:.09,support:30,speriod:20,life:25,buildRate:.15,mecIdx:0,cf:38,lcoe:105,scen:1,
+      desc:'257 MW bottom-fixed · EEG Ausschreibung (CfD equivalent) · Baltic Sea · COD 2024 · Germany\'s first zero-subsidy bid project nearby'}
+  },
+  CL:{
+    Roadmap:{label:'Roadmap Case',gw:.5,capex:5.5,opex:.12,support:60,speriod:20,life:25,buildRate:.25,mecIdx:0,cf:42,lcoe:160,scen:1,
+      desc:'Generic policy scenario · No support scheme enacted yet · LCOE ~160 USD/MWh · floating technology required · framing only, not an active project'}
+  },
+  KOR:{
+    Sinan:{label:'Sinan Offshore',gw:1.5,capex:3.0,opex:.08,support:40,speriod:20,life:25,buildRate:.6,mecIdx:0,cf:32,lcoe:110,scen:1,
+      desc:'1.5 GW bottom-fixed · RPS/CfD transition · Yellow Sea · Jeonnam province · one of Korea\'s largest consented projects · COD est. 2030'}
   }
 };
 const S_CURVE=[.30,.35,.25,.10], CONSTRUCT_YRS=4;
-const S={country:'NO',gw:3,capex:4.5,opex:.08,support:35,life:25,speriod:15,cf:45,price:45,lcoe:130,dwl:20,fmult:.85,finIdx:0,mecIdx:0,scen:1,lk:{t:10,f:35,c:30,i:55,e:70,o:65}};
-const CHS={};
+// FTE: IRENA (2023) Renewable Energy and Jobs annual review
+// Construction: ~15 FTE-years per MW over construction period (temporary)
+// O&M: ~0.25 permanent FTE per MW installed
+const FTE_CONST_PER_MW=15, FTE_OM_PER_MW=0.25;
+const S={country:'NO',gw:3,capex:4.5,opex:.08,support:35,life:25,speriod:15,
+  buildRate:0.5, // GW/year peak construction rate — determines workforce at any one time
+  cf:45,price:45,lcoe:130,dwl:20,fmult:.85,finIdx:0,mecIdx:0,scen:1,
+  lk:{t:10,f:35,c:30,i:55,e:70,o:65}};
 const el=id=>document.getElementById(id);
 const fmt=v=>{const a=Math.abs(v);return(a>=1e3?(a/1e3).toFixed(1)+'B':Math.round(a)+'M')+'€';};
 const fmtS=v=>(v>=0?'+':'-')+fmt(v);
 
+// Replace canvas DOM node entirely — avoids Chart.js residual state corruption
+function mkChart(cid,type,data,opts){
+  const tc='rgba(122,179,204,0.5)',gc='rgba(26,74,110,0.4)';
+  const old=el(cid); if(!old)return;
+  const neu=document.createElement('canvas');
+  neu.id=cid;
+  neu.setAttribute('role','img');
+  neu.setAttribute('aria-label',old.getAttribute('aria-label')||'');
+  old.parentNode.replaceChild(neu,old);
+  const stk=opts&&opts.stacked,isH=opts&&opts.h;
+  new Chart(neu,{type,data,options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+Math.round(ctx.raw).toLocaleString()+' M€'}}},
+    scales:{
+      x:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},maxTicksLimit:isH?undefined:13,autoSkip:!isH},grid:{display:!!isH,color:gc}},
+      y:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},callback:isH?undefined:v=>Math.abs(v)>=1e3?(v/1e3).toFixed(1)+'B':v+'M'},grid:{display:!isH,color:gc}}
+    }
+  }});
+}
+
 function setC(c){
   S.country=c;
-  document.querySelectorAll('#ctabs .ctab').forEach((t,i)=>t.classList.toggle('on',['NO','UK','CL'][i]===c));
+  document.querySelectorAll('#ctabs .ctab').forEach((t,i)=>t.classList.toggle('on',['NO','UK','DE','CL','KOR'][i]===c));
   const co=CO[c];
   el('cal-box').innerHTML=co.cal+`<span class="src">IO: ${IO[c].src}</span>`;
   Object.assign(S.lk,co.lk);
@@ -466,6 +613,7 @@ function setC(c){
   [['sl-t','lv-t','t'],['sl-f','lv-f','f'],['sl-c','lv-c','c'],['sl-i','lv-i','i'],['sl-e','lv-e','e'],['sl-o','lv-o','o']].forEach(([si,vi,k])=>{el(si).value=S.lk[k];el(vi).textContent=S.lk[k]+'%';});
   el('sl-pp').value=S.price;el('v-pp').textContent=S.price;
   el('sl-lc').value=S.lcoe;el('v-lc').textContent=S.lcoe;
+  el('sl-cf').value=S.cf;
   el('v-pe').textContent=co.pe.toFixed(2)+' €/MWh/GW';
   el('v-ei').textContent=co.eint.toFixed(1)+'%';
   el('v-cf').textContent=S.cf+'%';
@@ -474,6 +622,7 @@ function setC(c){
   el('fn1').style.cursor=c!=='NO'?'not-allowed':'pointer';
   if(c!=='NO'&&S.finIdx===1)setFin(0);
   setFin(S.finIdx);setMec(S.mecIdx);setSc(1);
+  updatePresets(c);
 }
 
 function setSc(i){
@@ -511,6 +660,185 @@ function setP(i){
   document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('on',j===i));
 }
 
+function updatePresets(c){
+  const psets=PRESETS[c]||{};
+  const keys=Object.keys(psets);
+  el('preset-title').textContent='Quick-load · '+CO[c].name+' reference projects';
+  if(!keys.length){
+    el('preset-row').innerHTML='<span style="font-family:var(--font-mono);font-size:11px;color:var(--dimmed);">No presets defined for this country.</span>';
+    el('preset-d').textContent='';
+    return;
+  }
+  el('preset-row').innerHTML=keys.map(k=>`<button class="scen-btn preset-btn" data-preset="${k}" onclick="setPreset('${k}')">${psets[k].label}</button>`).join('');
+  el('preset-d').textContent='';
+}
+
+function setPreset(id){
+  const p=(PRESETS[S.country]||{})[id];if(!p)return;
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.toggle('on',b.dataset.preset===id));
+  S.gw=p.gw;S.capex=p.capex;S.opex=p.opex;
+  S.support=p.support;S.speriod=p.speriod;S.life=p.life;S.buildRate=p.buildRate;
+  S.cf=p.cf;S.lcoe=p.lcoe;
+  el('sl-gw').value=p.gw;   el('v-gw').textContent=p.gw.toFixed(1)+' GW';
+  el('sl-cp').value=p.capex; el('v-cp').textContent=p.capex.toFixed(1);
+  el('sl-op').value=p.opex;  el('v-op').textContent=p.opex.toFixed(2);
+  el('sl-br').value=p.buildRate; el('v-br').textContent=p.buildRate.toFixed(1)+' GW/yr';
+  el('sl-su').value=p.support; el('v-su').textContent=p.support+'%';
+  el('sl-li').value=p.life;  el('v-li').textContent=p.life;
+  el('sl-sp').value=p.speriod; el('v-sp').textContent=p.speriod;
+  el('sl-lc').value=p.lcoe;  el('v-lc').textContent=p.lcoe;
+  el('preset-d').textContent=p.desc;
+  setMec(p.mecIdx);
+  setSc(p.scen);
+}
+
+// Compute top-line metrics for country cc using CO[cc] defaults + current project sliders
+function calcForCC(cc){
+  const io=IO[cc],co=CO[cc],lk=co.lk;
+  const totC=S.gw*1000*S.capex;
+  const wD=[['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>a+s*(lk[k]??lk.o)/100,0);
+  const suppC=totC*(S.support/100);
+  const dwlR=S.finIdx===1&&cc==='NO'?.03:S.finIdx===2?.08:S.dwl/100;
+  let ch1=0;
+  for(let y=1;y<=S.life;y++){
+    if(y<=CONSTRUCT_YRS){
+      const f=S_CURVE[y-1];
+      ch1+=[['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>
+        a+totC*f*s*(lk[k]??lk.o)/100*(io.cm[k]??io.ov),0);
+    }
+    ch1+=S.gw*1000*S.opex*Math.pow(1.025,Math.max(0,y-1))*(lk.o/100)*(io.cm.o??io.ov);
+    if(y===S.life)ch1+=totC*.04;
+  }
+  const pDrop=S.gw*co.pe;
+  const ch2=totC*6*(co.eint/100)*(pDrop/Math.max(1,co.price))*S.life;
+  let ch3=0;
+  if(S.mecIdx===0){ch3=-(suppC/S.speriod)*(1+dwlR)*S.fmult*Math.min(S.speriod,Math.max(0,S.life-CONSTRUCT_YRS));}
+  else{ch3=-suppC*(1+dwlR)*S.fmult;}
+  const net=ch1+ch2+ch3;
+  const be=Math.min(100,Math.max(0,(ch1+ch2)/(totC*(1+dwlR)*S.fmult)*100));
+  return{ch1,ch2,ch3,net,totC,suppC,be};
+}
+
+function toggleDetail(id){
+  const d=el('cd-'+id);if(!d)return;
+  const open=d.style.display==='table-row-group';
+  d.style.display=open?'none':'table-row-group';
+  el('eb-'+id).textContent=open?'+':'−';
+}
+
+function renderCompare(){
+  const CCS=['NO','UK','DE','CL','KOR'];
+  const data=CCS.map(cc=>({cc,...calcForCC(cc)}));
+  const pct=v=>v.toFixed(1)+'%';
+
+  const metrics=[
+    {id:'inv', label:'Total investment',         cls:'',      vals:d=>fmt(d.totC),      detail:d=>[
+      ['CAPEX',fmt(d.totC)],['Support outlay',fmt(d.suppC)],['Private share',fmt(d.totC-d.suppC)]]},
+    {id:'ch1', label:'① Domestic VA (lifetime)', cls:'cv-pos', vals:d=>'+'+fmt(d.ch1),  detail:d=>[
+      ['Construction VA',fmt(d.ch1*.65)],['O&M VA (est.)',fmt(d.ch1*.35)],['VA multiplier',IO[d.cc].ov.toFixed(3)]]},
+    {id:'ch2', label:'② Power price benefit',    cls:'cv-pos', vals:d=>'+'+fmt(d.ch2),  detail:d=>[
+      ['Annual benefit',fmt(d.ch2/S.life)+'/yr'],['Price effect','-'+(CO[d.cc].pe*S.gw).toFixed(2)+' €/MWh'],['Energy intensity',CO[d.cc].eint+'%']]},
+    {id:'ch3', label:'③ Financing cost',          cls:'cv-neg', vals:d=>'-'+fmt(Math.abs(d.ch3)), detail:d=>[
+      ['Support outlay',fmt(d.suppC)],['DWL rate',(S.finIdx===2?8:S.finIdx===1?3:S.dwl)+'%'],['Mechanism',S.mecIdx===0?'CfD':'CAPEX grant']]},
+    {id:'net', label:'Net societal benefit',      cls:'',       vals:d=>{const c=d.net>=0?'cv-pos':'cv-neg';return`<span class="${c}">${(d.net>=0?'+':'')+fmt(d.net)}</span>`;}, detail:d=>[
+      ['VA / support',((d.ch1+d.ch2)/Math.max(1,Math.abs(d.ch3))).toFixed(2)+'×'],['Positive?',d.net>=0?'Yes':'No']]},
+    {id:'be',  label:'Break-even support share',  cls:'cv-inf', vals:d=>pct(d.be),       detail:d=>[
+      ['Current support',S.support+'%'],['Gap',((d.be-S.support)>=0?'+':'')+((d.be-S.support)).toFixed(1)+'pp'],['Viable at current?',S.support<=d.be?'Yes':'No']]},
+  ];
+
+  const hdr='<thead><tr><th class="comp-th-label">Metric</th>'+CCS.map(cc=>`<th class="comp-th">${CO[cc].name.replace(' ','&nbsp;')}</th>`).join('')+'</tr></thead>';
+
+  const body=metrics.map(m=>{
+    const mainCells=data.map(d=>{
+      const raw=m.vals(d);
+      return`<td class="comp-val ${m.cls}">${raw}</td>`;
+    }).join('');
+    const detailRows=m.detail?m.detail(data[0]).map(([l],ri)=>{
+      const valCells=data.map(d=>{
+        const [,v]=m.detail(d)[ri];
+        return`<td class="comp-val" style="font-size:11px;color:var(--dimmed);">${v}</td>`;
+      }).join('');
+      return`<tr class="comp-detail"><td class="comp-row-label" style="padding-left:28px;font-size:11px;">${l}</td>${valCells}</tr>`;
+    }).join(''):'' ;
+
+    const isTot=m.id==='net';
+    const trCls=isTot?'comp-tot':'comp-main';
+    const expandBtn=m.detail?`<button class="expand-btn" id="eb-${m.id}" onclick="toggleDetail('${m.id}')">+</button>`:'';
+    const mainRow=`<tr class="${trCls}"><td class="comp-row-label">${expandBtn}${m.label}</td>${mainCells}</tr>`;
+    const detailGroup=m.detail?`<tbody id="cd-${m.id}" style="display:none;">${detailRows}</tbody>`:'';
+    return`<tbody>${mainRow}</tbody>${detailGroup}`;
+  }).join('');
+
+  el('comp-wrap').innerHTML=`<div class="comp-table-wrap"><table class="comp-table">${hdr}${body}</table></div>`+
+    `<div class="nt">IO source: OECD ICIO 2025 ed. (ref yr 2022), 50 ISIC Rev.4 industries. Project parameters from current sliders — ${S.gw} GW, ${S.capex} M€/MW, ${S.support}% support. Each country uses its own domestic content mix and price scenario.</div>`;
+}
+
+function drawViabilityChart(){
+  const io=IO[S.country],co=CO[S.country];
+  const totC=S.gw*1000*S.capex;
+  const dwlR=S.finIdx===1?.03:S.finIdx===2?.08:S.dwl/100;
+
+  // ch1 is invariant to price — compute once
+  let ch1=0;
+  for(let y=1;y<=S.life;y++){
+    if(y<=CONSTRUCT_YRS){
+      const f=S_CURVE[y-1];
+      ch1+=[['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>
+        a+totC*f*s*(S.lk[k]??S.lk.o)/100*(io.cm[k]??io.ov),0);
+    }
+    ch1+=S.gw*1000*S.opex*Math.pow(1.025,Math.max(0,y-1))*(S.lk.o/100)*(io.cm.o??io.ov);
+    if(y===S.life)ch1+=totC*.04;
+  }
+
+  const prices=[];for(let p=20;p<=150;p+=5)prices.push(p);
+  const denom=totC*(1+dwlR)*S.fmult;
+  const pDrop=S.gw*co.pe;
+  const reqS=prices.map(p=>{
+    const ch2=totC*6*(co.eint/100)*(pDrop/Math.max(1,p))*S.life;
+    return Math.min(100,Math.max(0,(ch1+ch2)/denom*100));
+  });
+
+  // Highlight point nearest current price
+  const nearest=prices.reduce((bi,p,i)=>Math.abs(p-S.price)<Math.abs(prices[bi]-S.price)?i:bi,0);
+
+  const old=el('ch-vg');
+  if(old){const n=document.createElement('canvas');n.id='ch-vg';n.setAttribute('role','img');n.setAttribute('aria-label','Required support share at break-even vs power price');old.parentNode.replaceChild(n,old);}
+
+  const tc='rgba(122,179,204,0.5)',gc='rgba(26,74,110,0.4)';
+  new Chart(el('ch-vg'),{type:'line',data:{labels:prices,datasets:[
+    {label:'Required support share',data:reqS,borderColor:'#ffaa00',backgroundColor:'rgba(255,170,0,0.07)',
+     tension:.3,borderWidth:2,fill:true,
+     pointRadius:prices.map((_,i)=>i===nearest?5:0),
+     pointBackgroundColor:'#ffaa00',pointBorderColor:'#ffaa00'},
+    {label:'Current support ('+S.support+'%)',data:prices.map(()=>S.support),
+     borderColor:'rgba(0,212,232,0.55)',borderWidth:1,borderDash:[5,4],
+     pointRadius:0,fill:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,labels:{color:tc,font:{size:9,family:'IBM Plex Mono'},boxWidth:12}},
+      tooltip:{callbacks:{
+        title:c=>'Price: '+prices[c[0].dataIndex]+' €/MWh',
+        label:c=>c.datasetIndex===0?' Break-even support: '+Number(c.raw).toFixed(1)+'%':' Current support: '+c.raw+'%'
+      }}},
+    scales:{
+      x:{ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},callback:(_,i)=>prices[i]%25===0?prices[i]+'':null,maxTicksLimit:7},
+         grid:{color:gc},
+         title:{display:true,text:'Long-run power price (€/MWh)',color:'rgba(122,179,204,0.6)',font:{size:9,family:'IBM Plex Mono'}}},
+      y:{min:0,max:100,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},callback:v=>v+'%'},
+         grid:{color:gc},
+         title:{display:true,text:'Required support share (%)',color:'rgba(122,179,204,0.6)',font:{size:9,family:'IBM Plex Mono'}}}
+    }
+  }});
+
+  // Note: where curve crosses current support line = break-even price
+  const crossIdx=reqS.findIndex((v,i)=>i>0&&((reqS[i-1]>S.support&&v<=S.support)||(reqS[i-1]<S.support&&v>=S.support)));
+  const crossPrice=crossIdx>0?Math.round((prices[crossIdx-1]+prices[crossIdx])/2):null;
+  el('vg-note').textContent=crossPrice
+    ?`Curve crosses current support share (${S.support}%) at approximately ${crossPrice} €/MWh — below this price the project requires more support to be net-positive; above it less support suffices.`
+    :reqS[0]<=S.support
+      ?`Required support share is below ${S.support}% across the full price range — project is net-positive at current support for any assumed price.`
+      :`Required support share exceeds ${S.support}% across the full price range — project is net-negative at current support regardless of price assumption.`;
+}
+
 function omY(yr){return S.gw*1000*S.opex*Math.pow(1.025,Math.max(0,yr-1));}
 
 function calc(){
@@ -543,7 +871,7 @@ function calc(){
   const newP=Math.max(5,S.price-pDrop);
   const gap=S.lcoe-newP;
   const bld=Math.max(0,Math.min(100,Math.round(newP/S.lcoe*100)));
-  const totalEI=CATS.reduce((a,c)=>{const cv=io.cats[c];return a+(cv?cv.ei:0);},0)||1;
+  const totalEI=CATS.reduce((a,c)=>{const cv=io.cats[c];return a+(cv?cv.sh*cv.ei:0);},0)||1;
   const annPow=totC*6*(co.eint/100)*(pDrop/Math.max(1,S.price));
   const ch2=annPow*S.life;
 
@@ -568,27 +896,41 @@ function calc(){
   }
 
   const net=ch1+ch2+ch3;
-  const jobs=Math.round(S.gw*2800+S.gw*120);
-  return{ch1,ch2,ch3,net,totC,suppC,wD,pDrop,newP,gap,bld,annPow,ch1Y,ch3Y,jobs,dwlR,io,co,totalEI};
+  // Break-even: support share s* where ch1 + ch2 - totC*(s*/100)*(1+dwlR)*fmult = 0
+  // Both CfD and CAPEX grant reduce to ch3 = -totC*(support/100)*(1+dwlR)*fmult
+  const breakEvenSupport=Math.min(100,Math.max(0,(ch1+ch2)/(totC*(1+dwlR)*S.fmult)*100));
+  // FTE split: construction = peak concurrent workforce, O&M = permanent
+  const constructionFTE=Math.round(S.buildRate*1000*FTE_CONST_PER_MW/CONSTRUCT_YRS);
+  const omFTE=Math.round(S.gw*1000*FTE_OM_PER_MW);
+  return{ch1,ch2,ch3,net,totC,suppC,wD,pDrop,newP,gap,bld,annPow,ch1Y,ch3Y,
+    constructionFTE,omFTE,dwlR,io,co,totalEI,breakEvenSupport};
 }
 
-function mkChart(cid,type,data,opts){
-  const tc='rgba(122,179,204,0.5)',gc='rgba(26,74,110,0.4)';
-  if(CHS[cid])CHS[cid].destroy();
-  const stk=opts&&opts.stacked,isH=opts&&opts.h;
-  CHS[cid]=new Chart(el(cid),{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+Math.round(ctx.raw).toLocaleString()+' M€'}}},scales:{x:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},maxTicksLimit:isH?undefined:13,autoSkip:!isH},grid:{display:!!isH,color:gc}},y:{stacked:stk,ticks:{color:tc,font:{size:9,family:'IBM Plex Mono'},callback:isH?undefined:v=>Math.abs(v)>=1e3?(v/1e3).toFixed(1)+'B':v+'M'},grid:{display:!isH,color:gc}}}}});
-}
 
 function go(){
   const r=calc();
   const L=Array.from({length:S.life},(_,i)=>'Y'+(i+1));
   const io=r.io;
 
-  el('m1').innerHTML=`<div class="met hi"><div class="ml">TOTAL INVESTMENT</div><div class="mv">${fmt(r.totC+S.gw*1000*S.opex*S.life)}</div><div class="ms">CAPEX + ${S.life}yr OPEX</div></div><div class="met inf"><div class="ml">DOMESTIC VA (IO)</div><div class="mv">${fmt(r.ch1)}</div><div class="ms">Full lifetime</div></div><div class="met"><div class="ml">JOBS (FTE)</div><div class="mv">${r.jobs.toLocaleString()}</div><div class="ms">Construction + O&M</div></div><div class="met"><div class="ml">IMPORT LEAKAGE</div><div class="mv">${Math.round((1-r.wD)*100)}%</div><div class="ms">Of CAPEX</div></div>`;
+  el('m1').innerHTML=`
+    <div class="met hi"><div class="ml">TOTAL INVESTMENT</div><div class="mv">${fmt(r.totC+S.gw*1000*S.opex*S.life)}</div><div class="ms">CAPEX + ${S.life}yr OPEX</div></div>
+    <div class="met inf"><div class="ml">DOMESTIC VA — LIFETIME</div><div class="mv">${fmt(r.ch1)}</div><div class="ms">~${fmt(r.ch1/S.life)}/yr avg · IO-weighted</div></div>
+    <div class="met"><div class="ml">CONSTRUCTION FTEs</div><div class="mv">${r.constructionFTE.toLocaleString()}</div><div class="ms">Peak concurrent · ${S.buildRate} GW/yr build rate</div></div>
+    <div class="met"><div class="ml">O&amp;M FTEs (PERMANENT)</div><div class="mv">${r.omFTE.toLocaleString()}</div><div class="ms">${S.life}yr · ${S.gw} GW installed</div></div>`;
 
-  const maxV=r.totC*.25;
-  el('sbars').innerHTML=CATS.map(cat=>{const cv=io.cats[cat];if(!cv)return'';const dom=Math.round(r.totC*cv.sh*r.wD*cv.out);const imp=Math.round(r.totC*cv.sh*(1-r.wD));const dW=Math.min(76,Math.round(dom/maxV*100*.65));const iW=Math.min(76-dW,Math.round(imp/maxV*100*.4));return`<div class="br"><span class="bs">${cat}</span><div class="bt"><div class="bd" style="width:${dW}%"></div><div class="bi" style="width:${iW}%"></div></div><span class="bv">${fmt(dom)}</span></div>`;}).join('');
-  el('nt1').textContent=`Source: ${io.src} · Overall VA multiplier: ${io.ov.toFixed(3)}`;
+  // Sector bars: domestic VA over full lifetime (construction + O&M)
+  // Scale to max sector value for proportional display
+  const sectorVAs=CATS.map(cat=>{const cv=io.cats[cat];if(!cv)return 0;return r.totC*cv.sh*r.wD*cv.out;});
+  const maxSector=Math.max(...sectorVAs,1);
+  el('sbars').innerHTML=CATS.map((cat,idx)=>{
+    const cv=io.cats[cat];if(!cv)return'';
+    const dom=Math.round(sectorVAs[idx]);
+    const imp=Math.round(r.totC*io.cats[cat].sh*(1-r.wD));
+    const dW=Math.min(75,Math.round(dom/maxSector*100*.72));
+    const iW=Math.min(75-dW,Math.round(imp/maxSector*100*.45));
+    return`<div class="br"><span class="bs">${cat}</span><div class="bt"><div class="bd" style="width:${dW}%"></div><div class="bi" style="width:${iW}%"></div></div><span class="bv">${fmt(dom)}</span></div>`;
+  }).join('');
+  el('nt1').textContent=`CAPEX-phase domestic VA (lifetime total). Source: ${io.src} · VA mult: ${io.ov.toFixed(3)} · Annual avg: ~${fmt(r.ch1/S.life)}/yr`;
 
   mkChart('ch-tl','bar',{labels:L,datasets:[{label:'Construction',data:r.ch1Y.map(y=>y.inv),backgroundColor:'#00d4e8',stack:'s'},{label:'O&M',data:r.ch1Y.map(y=>y.om),backgroundColor:'#00e87a',stack:'s'},{label:'Decommission',data:r.ch1Y.map(y=>y.dc),backgroundColor:'#ffaa00',stack:'s'}]},{stacked:true});
 
@@ -598,30 +940,62 @@ function go(){
   el('v-bl').textContent=r.bld+'%';
   el('m2').innerHTML=`<div class="met"><div class="ml">ANNUAL GENERATION</div><div class="mv">${Math.round(S.gw*1000*(S.cf/100)*8760/1000).toLocaleString()} GWh</div><div class="ms">${S.cf}% capacity factor</div></div><div class="met inf"><div class="ml">PRICE REDUCTION</div><div class="mv">−${r.pDrop.toFixed(2)} €/MWh</div><div class="ms">${S.price}→${Math.round(r.newP)} €/MWh</div></div><div class="met pos"><div class="ml">ANNUAL BENEFIT</div><div class="mv">${fmt(r.annPow)}</div><div class="ms">Reduced input costs</div></div><div class="met ${r.gap>0?'neg':'pos'}"><div class="ml">VIABILITY GAP</div><div class="mv">${Math.round(r.gap)} €/MWh</div><div class="ms">LCOE vs market</div></div>`;
 
-  const pwData=CATS.map(cat=>{const cv=io.cats[cat];return cv?Math.round(r.annPow*(cv.ei/r.totalEI)):0;});
-  mkChart('ch-pw','bar',{labels:CATS.map(c=>c.length>20?c.slice(0,18)+'…':c),datasets:[{label:'Benefit',data:pwData,backgroundColor:'#00e87a',borderWidth:0}]},{h:true});
+  const pwData=CATS.map(cat=>{const cv=io.cats[cat];return cv?Math.round(r.annPow*(cv.sh*cv.ei/r.totalEI)):0;});
+  // Horizontal bar chart for power sector — needs indexAxis:'y' not opts.h workaround
+  const old_pw=el('ch-pw');
+  if(old_pw){const neu=document.createElement('canvas');neu.id='ch-pw';neu.setAttribute('role','img');neu.setAttribute('aria-label','Sector power price benefit');old_pw.parentNode.replaceChild(neu,old_pw);}
+  const tc2='rgba(122,179,204,0.5)',gc2='rgba(26,74,110,0.4)';
+  new Chart(el('ch-pw'),{type:'bar',data:{labels:CATS.map(c=>c.length>22?c.slice(0,20)+'…':c),datasets:[{label:'Annual benefit',data:pwData,backgroundColor:'#00e87a',borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+Math.round(ctx.raw).toLocaleString()+' M€/yr'}}},scales:{x:{ticks:{color:tc2,font:{size:9,family:'IBM Plex Mono'},callback:v=>fmt(v)},grid:{color:gc2}},y:{ticks:{color:tc2,font:{size:9,family:'IBM Plex Mono'}},grid:{display:false}}}}});
 
   const dwlAmt=Math.round(Math.abs(r.ch3)*r.dwlR);
   const mechLabel=S.mecIdx===0?'CfD (post-COD)':'CAPEX (FID front-loaded)';
   el('m3').innerHTML=`<div class="met"><div class="ml">SUPPORT OUTLAY</div><div class="mv">${fmt(r.suppC)}</div><div class="ms">${mechLabel}</div></div><div class="met neg"><div class="ml">OPPORTUNITY COST</div><div class="mv">−${fmt(Math.abs(r.ch3))}</div><div class="ms">DWL + multiplier</div></div><div class="met amb"><div class="ml">DEADWEIGHT LOSS</div><div class="mv">${fmt(dwlAmt)}</div><div class="ms">${Math.round(r.dwlR*100)}% of support</div></div><div class="met"><div class="ml">POST-SUPPORT</div><div class="mv">${Math.max(0,S.life-S.speriod-(S.mecIdx===0?CONSTRUCT_YRS:0))} yr</div><div class="ms">No govt outlay</div></div>`;
   el('nt3').textContent=`Mechanism: ${mechLabel}. Support period: ${S.speriod} years. ${S.mecIdx===0?'CfD payments begin at COD (year '+(CONSTRUCT_YRS+1)+'), run for '+S.speriod+' years. Actual annual payment = max(0, strike − market_price) × generation — modelled at expected current scenario price.':'CAPEX grant disbursed at FID, front-loaded matching construction S-curve. No market price dependency.'} Depreciation: typically 20 years straight-line for tax purposes.`;
 
-  mkChart('ch-fn','bar',{labels:L,datasets:[{label:'Financing cost',data:r.ch3Y,backgroundColor:'rgba(255,45,110,0.4)',borderColor:'rgba(255,45,110,0.7)',borderWidth:1}]},{});
+  // Ch3 financing chart — for CfD show upside when market > strike
+  // Upside = (market_price - strike_price) × annual_generation × fraction_captured
+  // Currently modelled as: if market > lcoe then government receives back payments
+  const strikePrice=r.suppC/(S.gw*1000*(S.cf/100)*8760/1e6*S.speriod); // implied strike €/MWh
+  const annGen=S.gw*1000*(S.cf/100)*8760/1e6; // TWh/yr
+  const ch3Upside=S.mecIdx===0&&S.price>strikePrice?
+    Math.round((S.price-strikePrice)*annGen*1000*0.5):0; // 50% captured (policy assumption)
+  const ch3YDisplay=r.ch3Y.map((v,i)=>{
+    if(S.mecIdx===0&&i>CONSTRUCT_YRS&&i<=CONSTRUCT_YRS+S.speriod&&ch3Upside>0)
+      return v+ch3Upside; // net cost reduced by upside revenue
+    return v;
+  });
+  const ch3UpsideY=r.ch3Y.map((_,i)=>S.mecIdx===0&&i>CONSTRUCT_YRS&&i<=CONSTRUCT_YRS+S.speriod&&ch3Upside>0?ch3Upside:0);
+  // Replace canvas for ch-fn
+  const old_fn=el('ch-fn');
+  if(old_fn){const neu=document.createElement('canvas');neu.id='ch-fn';neu.setAttribute('role','img');neu.setAttribute('aria-label','Annual financing cost');old_fn.parentNode.replaceChild(neu,old_fn);}
+  new Chart(el('ch-fn'),{type:'bar',data:{labels:L,datasets:[
+    {label:'Financing cost',data:r.ch3Y,backgroundColor:'rgba(255,45,110,0.4)',borderColor:'rgba(255,45,110,0.7)',borderWidth:1,stack:'s'},
+    {label:'CfD upside revenue',data:ch3UpsideY,backgroundColor:'rgba(0,232,122,0.35)',borderColor:'rgba(0,232,122,0.6)',borderWidth:1,stack:'s'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:ch3Upside>0},tooltip:{callbacks:{label:ctx=>' '+Math.round(ctx.raw).toLocaleString()+' M€'}}},scales:{x:{stacked:true,ticks:{color:'rgba(122,179,204,0.5)',font:{size:9,family:'IBM Plex Mono'},maxTicksLimit:13,autoSkip:true},grid:{display:false}},y:{stacked:true,ticks:{color:'rgba(122,179,204,0.5)',font:{size:9,family:'IBM Plex Mono'},callback:v=>Math.abs(v)>=1e3?(v/1e3).toFixed(1)+'B':v+'M'},grid:{color:'rgba(26,74,110,0.4)'}}}}}); 
 
   el('s1').textContent=fmtS(r.ch1);el('s2').textContent=fmtS(r.ch2);el('s3').textContent=fmtS(r.ch3);
   const ne=el('snet');ne.textContent=(r.net>=0?'+':'-')+fmt(r.net);ne.style.color=r.net>=0?'var(--green)':'var(--magenta)';
+  const be=r.breakEvenSupport;
+  el('s-be').textContent=be.toFixed(1)+'%';
+  el('s-be').className='gap-value';
+  el('s-be').style.color='var(--cyan)';
+  el('be-note').textContent=`Current support share (${S.support}%) is ${S.support<=be?'below':'above'} break-even — net societal benefit is ${S.support<=be?'positive':'negative'} at current parameters. This is a calculated fact, not a recommendation.`;
 
   mkChart('ch-su','bar',{labels:L,datasets:[{label:'Ch1',data:r.ch1Y.map(y=>y.inv+y.om+y.dc),backgroundColor:'#00d4e8',stack:'s'},{label:'Ch2',data:L.map(()=>Math.round(r.annPow)),backgroundColor:'#00e87a',stack:'s'},{label:'Ch3',data:r.ch3Y,backgroundColor:'rgba(255,45,110,0.4)',stack:'s'}]},{stacked:true});
+  renderCompare();
+  drawViabilityChart();
 }
 
+const CHS={};
 const tri=(lo,m,hi)=>{const u=Math.random(),f=(m-lo)/(hi-lo);return u<f?lo+Math.sqrt(u*(hi-lo)*(m-lo)):hi-Math.sqrt((1-u)*(hi-lo)*(hi-m));};
 const logn=(mu,s)=>{const z=Math.sqrt(-2*Math.log(Math.random()))*Math.cos(2*Math.PI*Math.random());return Math.exp(Math.log(mu)-s*s/2+s*z);};
 
 function runMC(){
-  const N=10000,res=[],sR={};
+  const N=10000,res=[],vaRes=[],sR={};
   CATS.forEach(c=>sR[c]=[]);
   const io=IO[S.country],co=CO[S.country];
   const dwlR=S.finIdx===1?.03:S.finIdx===2?.08:S.dwl/100;
+  const det=calc(); // deterministic baseline for fin_pct
   const totalEI=CATS.reduce((a,c)=>{const cv=io.cats[c];return a+(cv?cv.ei:0);},0)||1;
   for(let i=0;i<N;i++){
     const capex=tri(S.capex*.6,S.capex,S.capex*1.4);
@@ -634,6 +1008,7 @@ function runMC(){
     c1+=S.gw*1000*S.opex*(S.lk.o/100)*(io.cm.o??io.ov)*ms*S.life;
     const pD=S.gw*pe;const c2=totC*6*(co.eint/100)*(pD/Math.max(1,S.price))*S.life;
     const suppC=totC*(S.support/100);const c3=-(suppC*(1+dwlR)*S.fmult);
+    vaRes.push(c1);
     res.push(c1+c2+c3);
   }
   res.sort((a,b)=>a-b);
@@ -654,6 +1029,32 @@ function runMC(){
   const vE=varC(()=>{const e=CO[S.country].pe*(0.5+Math.random());return S.gw*1000*S.capex*6*(CO[S.country].eint/100)*(S.gw*e/Math.max(1,S.price))*S.life;});
   const tot=vC+vM+vE||1;
   el('sobol').innerHTML=[{n:'CAPEX uncertainty',v:vC},{n:'IO multiplier',v:vM},{n:'Price elasticity',v:vE}].map(p=>{const w=Math.round(p.v/tot*100*.82);return`<div class="sobol-bar"><span class="sobol-label">${p.n}</span><div class="sobol-track"><div class="sobol-fill" style="width:${w}%"></div></div><span class="sobol-pct">${Math.round(p.v/tot*100)}%</span></div>`;}).join('');
+
+  // Interpretation paragraph
+  vaRes.sort((a,b)=>a-b);
+  const p50va=vaRes[Math.floor(N*.5)];
+  const detSuppC=Math.max(1,det.suppC);
+  const vaRatio=(p50va/detSuppC).toFixed(2);
+  const grossBen=Math.max(1,det.ch1+det.ch2);
+  const finPct=Math.round(Math.abs(det.ch3)/grossBen*100);
+  const sobolItems=[
+    {n:'CAPEX uncertainty',v:vC,pct:Math.round(vC/tot*100),
+     meaning:'the CAPEX cost estimate most requires empirical validation'},
+    {n:'IO multiplier',    v:vM,pct:Math.round(vM/tot*100),
+     meaning:'the domestic IO multiplier most requires empirical validation'},
+    {n:'Price elasticity', v:vE,pct:Math.round(vE/tot*100),
+     meaning:'the merit-order effect assumption most requires empirical validation'}
+  ];
+  const dom=sobolItems.reduce((a,b)=>b.v>a.v?b:a);
+  const sign=p50>=0?'positive':'negative';
+  el('mc-interp').innerHTML=
+    `At the median (P50), public investment of <strong>${fmt(detSuppC)}</strong> in <strong>${S.gw} GW</strong> `+
+    `of offshore wind generates <strong>${fmt(p50va)}</strong> in domestic value added over the project lifetime — `+
+    `equivalent to <strong>${vaRatio}×</strong> the support amount. `+
+    `The net societal benefit at P50 is <strong style="color:${p50>=0?'var(--green)':'var(--magenta)'}">${fmtS(p50)}</strong> (${sign}). `+
+    `The financing cost represents <strong>${finPct}%</strong> of gross benefits (Ch1 + Ch2). `+
+    `<strong>${dom.n}</strong> is the dominant source of uncertainty (<strong>${dom.pct}%</strong> of output variance), `+
+    `meaning ${dom.meaning}.`;
   const sp10=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.1)]||0);});
   const sp50=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.5)]||0);});
   const sp90=CATS.map(c=>{const a=[...(sR[c]||[])].sort((x,y)=>x-y);return Math.round(a[Math.floor(a.length*.9)]||0);});
