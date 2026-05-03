@@ -1002,10 +1002,11 @@ function runMC(){
     const ms=Math.max(.4,Math.min(2.5,logn(1,.15)));
     const pe=co.pe*(0.5+Math.random());
     const totC=S.gw*1000*capex;
-    const wD=([['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>a+s*(S.lk[k]??S.lk.o)/100,0));
-    let c1=0;
-    CATS.forEach(cat=>{const cv=io.cats[cat];if(!cv)return;const sv=totC*cv.sh*wD*cv.out*ms;sR[cat].push(sv);c1+=sv;});
+    // c1: component-based, mirrors calc() — consistent with deterministic baseline
+    let c1=[['t',.33],['f',.22],['c',.15],['i',.14],['e',.10],['x',.06]].reduce((a,[k,s])=>a+totC*s*(S.lk[k]??S.lk.o)/100*(io.cm[k]??io.ov)*ms,0);
     c1+=S.gw*1000*S.opex*(S.lk.o/100)*(io.cm.o??io.ov)*ms*S.life;
+    // sR: sector breakdown for chart only — approximate, uses va not out
+    CATS.forEach(cat=>{const cv=io.cats[cat];if(!cv)return;sR[cat].push(totC*cv.sh*(S.lk.o/100)*cv.va*ms);});
     const pD=S.gw*pe;const c2=totC*6*(co.eint/100)*(pD/Math.max(1,S.price))*S.life;
     const suppC=totC*(S.support/100);const c3=-(suppC*(1+dwlR)*S.fmult);
     vaRes.push(c1);
